@@ -34,14 +34,6 @@
         </div>
     </div>
 
-    {{-- Search bar --}}
-    <div class="header-search-wrap" style="flex-shrink:0;">
-        <div class="header-search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search Anything ...">
-        </div>
-    </div>
-
     {{-- Right actions --}}
     <div class="header-actions">
 

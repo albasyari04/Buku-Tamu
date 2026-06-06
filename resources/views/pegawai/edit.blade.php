@@ -438,34 +438,6 @@
                             </div>
                         </div>
                         
-                        <!-- Jabatan -->
-                        <div class="form-group">
-                            <label class="form-label">
-                                <i class="fas fa-briefcase"></i>
-                                Jabatan <span class="required-star">*</span>
-                            </label>
-                            <select name="jabatan" class="form-control @error('jabatan') is-invalid @enderror" required>
-                                <option value="">-- Pilih Jabatan --</option>
-                                <option value="Kepala Badan" {{ old('jabatan', $pegawai->jabatan) == 'Kepala Badan' ? 'selected' : '' }}>Kepala Badan</option>
-                                <option value="Sekretaris" {{ old('jabatan', $pegawai->jabatan) == 'Sekretaris' ? 'selected' : '' }}>Sekretaris</option>
-                                <option value="Kepala Bidang" {{ old('jabatan', $pegawai->jabatan) == 'Kepala Bidang' ? 'selected' : '' }}>Kepala Bidang</option>
-                                <option value="Kasubbag" {{ old('jabatan', $pegawai->jabatan) == 'Kasubbag' ? 'selected' : '' }}>Kasubbag</option>
-                                <option value="Analis Kepegawaian" {{ old('jabatan', $pegawai->jabatan) == 'Analis Kepegawaian' ? 'selected' : '' }}>Analis Kepegawaian</option>
-                                <option value="Auditor Kepegawaian" {{ old('jabatan', $pegawai->jabatan) == 'Auditor Kepegawaian' ? 'selected' : '' }}>Auditor Kepegawaian</option>
-                                <option value="Pranata Komputer" {{ old('jabatan', $pegawai->jabatan) == 'Pranata Komputer' ? 'selected' : '' }}>Pranata Komputer</option>
-                                <option value="Arsiparis" {{ old('jabatan', $pegawai->jabatan) == 'Arsiparis' ? 'selected' : '' }}>Arsiparis</option>
-                                <option value="Pengelola Kepegawaian" {{ old('jabatan', $pegawai->jabatan) == 'Pengelola Kepegawaian' ? 'selected' : '' }}>Pengelola Kepegawaian</option>
-                                <option value="Staf Administrasi" {{ old('jabatan', $pegawai->jabatan) == 'Staf Administrasi' ? 'selected' : '' }}>Staf Administrasi</option>
-                                <option value="Operator" {{ old('jabatan', $pegawai->jabatan) == 'Operator' ? 'selected' : '' }}>Operator</option>
-                                <option value="Lainnya" {{ old('jabatan', $pegawai->jabatan) == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
-                            </select>
-                            @error('jabatan')
-                                <div class="invalid-feedback">
-                                    <i class="fas fa-exclamation-circle"></i> {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        
                         <!-- Bidang / Unit Kerja -->
                         <div class="form-group">
                             <label class="form-label">
@@ -519,7 +491,6 @@
                         <div class="preview-name" id="previewName">{{ $pegawai->nama }}</div>
                         <div class="preview-info">
                             <span><i class="fas fa-id-badge"></i> NIP: <span id="previewNip">{{ $pegawai->nip ?? '-' }}</span></span>
-                            <span><i class="fas fa-briefcase"></i> Jabatan: <span id="previewJabatan">{{ $pegawai->jabatan }}</span></span>
                             <span><i class="fas fa-building"></i> Bidang: <span id="previewBidang">{{ $pegawai->bidang }}</span></span>
                         </div>
                     </div>
@@ -547,24 +518,20 @@
     document.addEventListener('DOMContentLoaded', function() {
         const namaInput = document.querySelector('input[name="nama"]');
         const nipInput = document.querySelector('input[name="nip"]');
-        const jabatanSelect = document.querySelector('select[name="jabatan"]');
         const bidangSelect = document.querySelector('select[name="bidang"]');
         
         const previewName = document.getElementById('previewName');
         const previewNip = document.getElementById('previewNip');
-        const previewJabatan = document.getElementById('previewJabatan');
         const previewBidang = document.getElementById('previewBidang');
         
         function updatePreview() {
             if (namaInput) previewName.textContent = namaInput.value.trim() || '(Nama belum diisi)';
             if (nipInput) previewNip.textContent = nipInput.value.trim() || '-';
-            if (jabatanSelect) previewJabatan.textContent = jabatanSelect.value || '(Pilih jabatan)';
             if (bidangSelect) previewBidang.textContent = bidangSelect.value || '(Pilih bidang)';
         }
         
         if (namaInput) namaInput.addEventListener('input', updatePreview);
         if (nipInput) nipInput.addEventListener('input', updatePreview);
-        if (jabatanSelect) jabatanSelect.addEventListener('change', updatePreview);
         if (bidangSelect) bidangSelect.addEventListener('change', updatePreview);
     });
     
@@ -577,12 +544,10 @@
             setTimeout(() => {
                 const previewName = document.getElementById('previewName');
                 const previewNip = document.getElementById('previewNip');
-                const previewJabatan = document.getElementById('previewJabatan');
                 const previewBidang = document.getElementById('previewBidang');
                 
                 if (previewName) previewName.textContent = '{{ addslashes($pegawai->nama) }}';
                 if (previewNip) previewNip.textContent = '{{ addslashes($pegawai->nip ?? '-') }}';
-                if (previewJabatan) previewJabatan.textContent = '{{ addslashes($pegawai->jabatan) }}';
                 if (previewBidang) previewBidang.textContent = '{{ addslashes($pegawai->bidang) }}';
             }, 10);
         }

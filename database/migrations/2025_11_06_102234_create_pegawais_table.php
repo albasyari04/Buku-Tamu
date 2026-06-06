@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('nip')->unique()->nullable();
-            $table->string('jabatan');
             $table->string('bidang');
             $table->boolean('status')->default(true);
             $table->timestamps();

@@ -745,7 +745,6 @@
             <div class="hero-pills">
                 <span class="h-pill"><i class="fas fa-users"></i> {{ number_format($totalPegawai, 0, ',', '.') }} Pegawai Aktif</span>
                 <span class="h-pill"><i class="fas fa-layer-group"></i> {{ number_format($totalBidang, 0, ',', '.') }} Bidang</span>
-                <span class="h-pill"><i class="fas fa-id-badge"></i> {{ number_format($totalJabatan, 0, ',', '.') }} Jabatan</span>
             </div>
         </div>
         <div class="hero-right">
@@ -789,7 +788,6 @@
     @php
         $totalAllPegawai = $pegawais->total();
         $totalBidangUnik = \App\Models\Pegawai::where('status', true)->distinct('bidang')->count('bidang');
-        $totalJabatanUnik = \App\Models\Pegawai::where('status', true)->distinct('jabatan')->count('jabatan');
         $persenKeaktifan = $totalAllPegawai > 0 ? round(($totalAllPegawai / \App\Models\Pegawai::count()) * 100) : 100;
     @endphp
 
@@ -825,22 +823,7 @@
             </div>
         </div>
 
-        {{-- Card 3: Total Jabatan --}}
-        <div class="stat-card sc-amber">
-            <i class="fas fa-id-badge wm"></i>
-            <div class="stat-top">
-                <div class="stat-ico sico-amber"><i class="fas fa-id-badge"></i></div>
-                <span class="stat-badge sb-amber">Jenis Jabatan</span>
-            </div>
-            <div class="stat-num">{{ number_format($totalJabatanUnik, 0, ',', '.') }}</div>
-            <div class="stat-lbl">Total Jabatan</div>
-            <div class="stat-foot">
-                <i class="fas fa-briefcase" style="color:var(--warning)"></i>
-                Variasi jabatan berbeda
-            </div>
-        </div>
-
-        {{-- Card 4: Persentase Keaktifan --}}
+        {{-- Card 3: Persentase Keaktifan --}}
         <div class="stat-card sc-purple">
             <i class="fas fa-chart-line wm"></i>
             <div class="stat-top">
@@ -877,7 +860,7 @@
             <div class="toolbar">
                 <div class="srch-wrap">
                     <i class="fas fa-search srch-ico"></i>
-                    <input type="text" id="searchInput" placeholder="Cari nama, NIP, jabatan..." oninput="filterTbl(this.value)">
+                    <input type="text" id="searchInput" placeholder="Cari nama, NIP, bidang..." oninput="filterTbl(this.value)">
                 </div>
                 <span class="total-badge">
                     <i class="fas fa-users"></i>
@@ -893,7 +876,6 @@
                     <col class="col-no">
                     <col class="col-nama">
                     <col class="col-nip">
-                    <col class="col-jab">
                     <col class="col-bid">
                     <col class="col-stat">
                     <col class="col-aksi">
@@ -903,7 +885,6 @@
                         <th style="width:56px">#</th>
                         <th>Pegawai</th>
                         <th>NIP</th>
-                        <th>Jabatan</th>
                         <th>Bidang</th>
                         <th>Status</th>
                         <th style="width:110px">Aksi</th>
@@ -947,14 +928,6 @@
                         @endif
                     </td>
 
-                    {{-- Jabatan --}}
-                    <td>
-                        <span class="pill pill-indigo" title="{{ $pegawai->jabatan }}">
-                            <i class="fas fa-briefcase"></i>
-                            {{ Str::limit($pegawai->jabatan, 28) }}
-                        </span>
-                    </td>
-
                     {{-- Bidang --}}
                     <td>
                         <span class="pill pill-sky" title="{{ $pegawai->bidang }}">
@@ -990,7 +963,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7">
+                    <td colspan="6">
                         <div class="empty-wrap">
                             <div class="empty-ico"><i class="fas fa-users-slash"></i></div>
                             <div class="empty-ttl">Belum ada data pegawai</div>

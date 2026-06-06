@@ -401,14 +401,6 @@
             </div>
             <div class="stat-card">
                 <div class="stat-header">
-                    <span>JENIS JABATAN</span>
-                    <div class="stat-icon icon-amber"><i class="fas fa-briefcase"></i></div>
-                </div>
-                <div class="stat-number">{{ number_format($totalJabatan, 0, ',', '.') }}</div>
-                <div class="stat-label">Total Jabatan</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-header">
                     <span>STATUS</span>
                     <div class="stat-icon icon-purple"><i class="fas fa-check-circle"></i></div>
                 </div>
@@ -448,13 +440,6 @@
                             NIP
                         </div>
                         <div class="info-value">{{ $pegawai->nip ?? '-' }}</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">
-                            <i class="fas fa-briefcase"></i>
-                            Jabatan
-                        </div>
-                        <div class="info-value">{{ $pegawai->jabatan }}</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">

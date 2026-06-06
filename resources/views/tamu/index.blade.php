@@ -513,6 +513,12 @@
             <a href="{{ route('tamu.export.pdf') }}" class="btn-hero-sec">
                 <i class="fas fa-file-pdf"></i> Export PDF
             </a>
+            <a href="{{ route('tamu.formulir.print') }}" target="_blank" class="btn-hero-sec" style="background:rgba(251,191,36,.18);border-color:rgba(245,158,11,.35);">
+                <i class="fas fa-file-alt"></i> Cetak Formulir
+            </a>
+            <a href="{{ route('tamu.import.form') }}" class="btn-hero-sec" style="background:rgba(16,185,129,.2);border-color:rgba(16,185,129,.4);">
+                <i class="fas fa-file-excel"></i> Import Excel
+            </a>
             <a href="{{ route('tamu.create') }}" class="btn-hero-add">
                 <i class="fas fa-plus-circle"></i> Tambah Tamu
             </a>
@@ -542,6 +548,18 @@
         <div class="am-body">
             <div class="am-title">Error!</div>
             <p class="am-text">{{ session('error') }}</p>
+        </div>
+        <button class="am-close" onclick="this.closest('.alert-mod').remove()"><i class="fas fa-times"></i></button>
+    </div>
+    @endif
+    @if(session('import_errors') && count(session('import_errors')) > 0)
+    <div class="alert-mod" style="background:#FFFBEB;border-color:#FCD34D;" id="al-warn">
+        <div class="am-icon" style="color:#F59E0B;"><i class="fas fa-exclamation-triangle"></i></div>
+        <div class="am-body">
+            <div class="am-title" style="color:#78350F;">{{ count(session('import_errors')) }} baris dilewati saat import</div>
+            <ul style="margin:6px 0 0;padding-left:18px;font-size:12px;color:#92400E;">
+                @foreach(session('import_errors') as $err)<li>{{ $err }}</li>@endforeach
+            </ul>
         </div>
         <button class="am-close" onclick="this.closest('.alert-mod').remove()"><i class="fas fa-times"></i></button>
     </div>
@@ -653,6 +671,12 @@
                 </div>
                 <a href="{{ route('tamu.export.pdf') }}" class="btn-pdf">
                     <i class="fas fa-file-pdf"></i> Export PDF
+                </a>
+                <a href="{{ route('tamu.formulir.print') }}" target="_blank" class="btn-pdf" style="background:#FEF3C7;color:#B45309 !important;border-color:#FCD34D;">
+                    <i class="fas fa-file-alt"></i> Cetak Formulir
+                </a>
+                <a href="{{ route('tamu.import.form') }}" class="btn-pdf" style="background:#F0FDF4;color:#059669 !important;border-color:#86EFAC;">
+                    <i class="fas fa-file-excel"></i> Import Excel
                 </a>
             </div>
         </div>

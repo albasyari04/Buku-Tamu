@@ -4,18 +4,18 @@
 
 @section('content')
 
-
 {{-- ================================================================
-     HELLO BANNER CARD - Modern Welcome Section
+     HELLO BANNER CARD - Premium Welcome Section
      ================================================================ --}}
 <div class="row g-4 mb-4" data-aos="fade-up" data-aos-delay="50">
     <div class="col-12">
         <div class="welcome-card">
-            <div class="welcome-card-gradient"></div>
+            <div class="welcome-card-bg"></div>
+            <div class="welcome-card-dots"></div>
             <div class="welcome-card-content">
                 <div class="welcome-text-section">
                     <div class="welcome-badge">
-                        <i class="fas fa-user-shield"></i>
+                        <i class="fas fa-shield-halved"></i>
                         <span>Administrator</span>
                     </div>
                     @php
@@ -25,31 +25,54 @@
                                : ($hour < 18 ? 'Selamat Sore' : 'Selamat Malam'));
                     @endphp
                     <h1 class="welcome-title">
-                        {{ $greet }}, 
-                        @auth<strong class="welcome-name">{{ Auth::user()->name }}</strong>@else<strong>Administrator</strong>@endauth
+                        {{ $greet }},
+                        @auth<strong class="welcome-name">{{ Auth::user()->name }}</strong>@else<strong class="welcome-name">Administrator</strong>@endauth
                         <span class="welcome-wave">👋</span>
                     </h1>
                     <p class="welcome-subtitle">
                         Kelola data kunjungan tamu BKPSDM OKU TIMUR dengan mudah dan efisien.
-                        <span class="welcome-highlight">Semangat bekerja!</span>
                     </p>
-                    <div class="welcome-stats">
-                        <div class="welcome-stat-item">
-                            <i class="fas fa-calendar-check"></i>
+                    <a href="{{ route('tamu.create') }}" class="welcome-cta-btn">
+                        <i class="fas fa-star me-2"></i>Semangat bekerja!
+                    </a>
+                    <div class="welcome-meta">
+                        <div class="welcome-meta-item">
+                            <i class="fas fa-calendar-days"></i>
                             <span>Hari ini: {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}</span>
                         </div>
-                        <div class="welcome-stat-item">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Total kunjungan bulan ini: {{ number_format($totalTamu) }} tamu</span>
+                        <div class="welcome-meta-divider"></div>
+                        <div class="welcome-meta-item">
+                            <i class="fas fa-users-line"></i>
+                            <span>Total kunjungan bulan ini: <strong>{{ number_format($totalTamu) }} tamu</strong></span>
                         </div>
                     </div>
                 </div>
-                <div class="welcome-illustration">
-                    <div class="welcome-animation">
-                        <div class="welcome-circle welcome-circle-1"></div>
-                        <div class="welcome-circle welcome-circle-2"></div>
-                        <div class="welcome-circle welcome-circle-3"></div>
-                        <i class="fas fa-chart-simple welcome-icon"></i>
+                <div class="welcome-illustration-wrap">
+                    <div class="welcome-illustration">
+                        <!-- Animated Dashboard Illustration SVG -->
+                        <svg viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg" class="welcome-svg">
+                            <!-- Monitor -->
+                            <rect x="30" y="20" width="160" height="110" rx="8" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+                            <rect x="38" y="28" width="144" height="86" rx="4" fill="rgba(255,255,255,0.1)"/>
+                            <!-- Chart bars -->
+                            <rect x="50" y="85" width="16" height="22" rx="3" fill="rgba(255,255,255,0.5)" class="bar-anim bar1"/>
+                            <rect x="72" y="70" width="16" height="37" rx="3" fill="rgba(251,191,36,0.8)" class="bar-anim bar2"/>
+                            <rect x="94" y="78" width="16" height="29" rx="3" fill="rgba(255,255,255,0.5)" class="bar-anim bar3"/>
+                            <rect x="116" y="62" width="16" height="45" rx="3" fill="rgba(251,191,36,0.8)" class="bar-anim bar4"/>
+                            <rect x="138" y="72" width="16" height="35" rx="3" fill="rgba(255,255,255,0.5)" class="bar-anim bar5"/>
+                            <!-- Line chart -->
+                            <polyline points="50,60 72,52 94,55 116,44 138,48 162,38" fill="none" stroke="rgba(251,191,36,0.9)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="line-anim"/>
+                            <!-- Dots on line -->
+                            <circle cx="116" cy="44" r="4" fill="#fbbf24"/>
+                            <circle cx="162" cy="38" r="4" fill="#fbbf24"/>
+                            <!-- Monitor stand -->
+                            <rect x="95" y="130" width="30" height="8" rx="2" fill="rgba(255,255,255,0.2)"/>
+                            <rect x="85" y="138" width="50" height="5" rx="2" fill="rgba(255,255,255,0.2)"/>
+                            <!-- Floating stat bubble -->
+                            <rect x="148" y="12" width="62" height="28" rx="8" fill="rgba(251,191,36,0.9)" class="float-anim"/>
+                            <text x="164" y="22" font-size="7" fill="#1e293b" font-weight="700">↑ 12% Bulan</text>
+                            <text x="164" y="33" font-size="7" fill="#1e293b">ini meningkat</text>
+                        </svg>
                     </div>
                 </div>
             </div>
@@ -58,149 +81,168 @@
 </div>
 
 {{-- ================================================================
-     STAT CARDS - Modern Professional Design
+     STAT CARDS - 4 Column Premium Design
      ================================================================ --}}
 <div class="row g-4 mb-4">
     <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-        <div class="stat-card stat-card-blue">
-            <div class="stat-card-inner">
-                <div class="stat-card-left">
-                    <div class="stat-icon stat-icon-blue">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 class="stat-value">{{ number_format($totalTamu) }}</h3>
-                        <p class="stat-label">Total Tamu</p>
-                    </div>
+        <div class="stat-card">
+            <div class="stat-card-top">
+                <div class="stat-icon-wrap stat-blue">
+                    <i class="fas fa-users"></i>
                 </div>
-                <div class="stat-trend stat-trend-up">
-                    <i class="fas fa-arrow-up"></i>
-                    <span>12%</span>
+                <div class="stat-badge stat-badge-up">
+                    <i class="fas fa-arrow-up"></i> 12%
                 </div>
             </div>
-            <div class="stat-footer">
-                <a href="{{ route('tamu.index') }}" class="stat-link">
-                    Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
-                </a>
-                <div class="stat-chart">
-                    <svg viewBox="0 0 100 30" class="stat-sparkline">
-                        <path d="M5,25 L20,20 L35,22 L50,12 L65,15 L80,8 L95,10" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+            <div class="stat-card-body">
+                <div class="stat-value-large">{{ number_format($totalTamu) }}</div>
+                <div class="stat-label-text">TOTAL TAMU</div>
+                <div class="stat-sparkline-wrap">
+                    <svg viewBox="0 0 120 35" class="sparkline-svg">
+                        <defs>
+                            <linearGradient id="sg1" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M5,28 L22,22 L38,24 L55,14 L72,16 L90,10 L110,12" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5,28 L22,22 L38,24 L55,14 L72,16 L90,10 L110,12 L110,35 L5,35Z" fill="url(#sg1)"/>
                     </svg>
                 </div>
+            </div>
+            <div class="stat-card-footer">
+                <a href="{{ route('tamu.index') }}" class="stat-footer-link">
+                    Lihat Detail <i class="fas fa-arrow-right ms-1"></i>
+                </a>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-        <div class="stat-card stat-card-green">
-            <div class="stat-card-inner">
-                <div class="stat-card-left">
-                    <div class="stat-icon stat-icon-green">
-                        <i class="fas fa-user-check"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 class="stat-value">{{ number_format($tamuHariIni) }}</h3>
-                        <p class="stat-label">Tamu Hari Ini</p>
-                    </div>
+        <div class="stat-card">
+            <div class="stat-card-top">
+                <div class="stat-icon-wrap stat-green">
+                    <i class="fas fa-user-check"></i>
                 </div>
-                <div class="stat-trend stat-trend-up">
+                <div class="stat-badge stat-badge-cal">
                     <i class="fas fa-calendar-day"></i>
                 </div>
             </div>
-            <div class="stat-footer">
-                <a href="{{ route('tamu.create') }}" class="stat-link">
-                    Tambah Tamu <i class="fas fa-plus ms-1"></i>
-                </a>
-                <div class="stat-chart">
-                    <svg viewBox="0 0 100 30" class="stat-sparkline">
-                        <path d="M5,22 L20,18 L35,15 L50,10 L65,12 L80,8 L95,6" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+            <div class="stat-card-body">
+                <div class="stat-value-large">{{ number_format($tamuHariIni) }}</div>
+                <div class="stat-label-text">TAMU HARI INI</div>
+                <div class="stat-sparkline-wrap">
+                    <svg viewBox="0 0 120 35" class="sparkline-svg">
+                        <defs>
+                            <linearGradient id="sg2" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#10b981" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M5,24 L22,20 L38,17 L55,12 L72,14 L90,9 L110,7" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5,24 L22,20 L38,17 L55,12 L72,14 L90,9 L110,7 L110,35 L5,35Z" fill="url(#sg2)"/>
                     </svg>
                 </div>
+            </div>
+            <div class="stat-card-footer">
+                <a href="{{ route('tamu.create') }}" class="stat-footer-link">
+                    Tambah Tamu <i class="fas fa-plus ms-1"></i>
+                </a>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-        <div class="stat-card stat-card-purple">
-            <div class="stat-card-inner">
-                <div class="stat-card-left">
-                    <div class="stat-icon stat-icon-purple">
-                        <i class="fas fa-id-card"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 class="stat-value">{{ number_format($totalPegawai) }}</h3>
-                        <p class="stat-label">Total Pegawai</p>
-                    </div>
+        <div class="stat-card">
+            <div class="stat-card-top">
+                <div class="stat-icon-wrap stat-purple">
+                    <i class="fas fa-id-card"></i>
                 </div>
-                <div class="stat-trend stat-trend-neutral">
-                    <i class="fas fa-check-circle"></i>
+                <div class="stat-badge stat-badge-check">
+                    <i class="fas fa-circle-check"></i>
                 </div>
             </div>
-            <div class="stat-footer">
-                <a href="{{ route('pegawai.index') }}" class="stat-link">
-                    Kelola Pegawai <i class="fas fa-arrow-right ms-1"></i>
-                </a>
-                <div class="stat-chart">
-                    <svg viewBox="0 0 100 30" class="stat-sparkline">
-                        <path d="M5,18 L20,16 L35,14 L50,12 L65,10 L80,8 L95,6" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+            <div class="stat-card-body">
+                <div class="stat-value-large">{{ number_format($totalPegawai) }}</div>
+                <div class="stat-label-text">TOTAL PEGAWAI</div>
+                <div class="stat-sparkline-wrap">
+                    <svg viewBox="0 0 120 35" class="sparkline-svg">
+                        <defs>
+                            <linearGradient id="sg3" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M5,20 L22,18 L38,16 L55,14 L72,12 L90,9 L110,7" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5,20 L22,18 L38,16 L55,14 L72,12 L90,9 L110,7 L110,35 L5,35Z" fill="url(#sg3)"/>
                     </svg>
                 </div>
+            </div>
+            <div class="stat-card-footer">
+                <a href="{{ route('pegawai.index') }}" class="stat-footer-link">
+                    Kelola Pegawai <i class="fas fa-arrow-right ms-1"></i>
+                </a>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-        <div class="stat-card stat-card-orange">
-            <div class="stat-card-inner">
-                <div class="stat-card-left">
-                    <div class="stat-icon stat-icon-orange">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3 class="stat-value">94<span class="stat-percent">%</span></h3>
-                        <p class="stat-label">Kepuasan Tamu</p>
-                    </div>
+        <div class="stat-card">
+            <div class="stat-card-top">
+                <div class="stat-icon-wrap stat-orange">
+                    <i class="fas fa-face-smile"></i>
                 </div>
-                <div class="stat-trend stat-trend-up">
+                <div class="stat-badge stat-badge-smile">
                     <i class="fas fa-smile"></i>
                 </div>
             </div>
-            <div class="stat-footer">
-                <a href="#" class="stat-link">
-                    Lihat Rating <i class="fas fa-arrow-right ms-1"></i>
-                </a>
-                <div class="stat-chart">
-                    <svg viewBox="0 0 100 30" class="stat-sparkline">
-                        <path d="M5,20 L20,18 L35,16 L50,12 L65,10 L80,6 L95,4" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+            <div class="stat-card-body">
+                <div class="stat-value-large">94<span style="font-size:1.5rem;font-weight:600;">%</span></div>
+                <div class="stat-label-text">KEPUASAN TAMU</div>
+                <div class="stat-sparkline-wrap">
+                    <svg viewBox="0 0 120 35" class="sparkline-svg">
+                        <defs>
+                            <linearGradient id="sg4" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.3"/>
+                                <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M5,22 L22,20 L38,18 L55,14 L72,11 L90,7 L110,5" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M5,22 L22,20 L38,18 L55,14 L72,11 L90,7 L110,5 L110,35 L5,35Z" fill="url(#sg4)"/>
                     </svg>
                 </div>
+            </div>
+            <div class="stat-card-footer">
+                <a href="#" class="stat-footer-link">
+                    Lihat Rating <i class="fas fa-arrow-right ms-1"></i>
+                </a>
             </div>
         </div>
     </div>
 </div>
 
 {{-- ================================================================
-     MAIN CHARTS SECTION - Global Sales Style
+     CHARTS SECTION - Bar Chart + Donut Chart
      ================================================================ --}}
 <div class="row g-4 mb-4">
     <div class="col-xl-8" data-aos="fade-right">
         <div class="dashboard-card">
             <div class="card-header-custom">
                 <div class="card-header-left">
-                    <div class="card-header-icon icon-primary">
-                        <i class="fas fa-chart-bar"></i>
+                    <div class="card-icon-wrap icon-blue">
+                        <i class="fas fa-chart-column"></i>
                     </div>
                     <div>
-                        <h5 class="card-title">Statistik Kunjungan</h5>
-                        <p class="card-subtitle">Grafik kunjungan tamu 7 hari terakhir</p>
+                        <h5 class="card-title-main">Statistik Kunjungan</h5>
+                        <p class="card-subtitle-main">Grafik kunjungan tamu 7 hari terakhir</p>
                     </div>
                 </div>
                 <div class="card-header-right">
                     <div class="dropdown">
-                        <button class="period-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <button class="period-select-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
                             <i class="fas fa-calendar-week me-1"></i> Minggu Ini
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
                             <li><a class="dropdown-item active" href="#">Minggu Ini</a></li>
                             <li><a class="dropdown-item" href="#">Bulan Ini</a></li>
                             <li><a class="dropdown-item" href="#">Tahun Ini</a></li>
@@ -209,7 +251,7 @@
                 </div>
             </div>
             <div class="card-body-custom">
-                <div class="chart-container">
+                <div class="chart-area">
                     <canvas id="visitorChart"></canvas>
                 </div>
             </div>
@@ -220,43 +262,43 @@
         <div class="dashboard-card h-100">
             <div class="card-header-custom">
                 <div class="card-header-left">
-                    <div class="card-header-icon icon-success">
+                    <div class="card-icon-wrap icon-green">
                         <i class="fas fa-chart-pie"></i>
                     </div>
                     <div>
-                        <h5 class="card-title">Tingkat Kepuasan</h5>
-                        <p class="card-subtitle">Feedback dari tamu</p>
+                        <h5 class="card-title-main">Tingkat Kepuasan</h5>
+                        <p class="card-subtitle-main">Feedback dari tamu</p>
                     </div>
                 </div>
             </div>
             <div class="card-body-custom">
-                <div class="donut-chart-wrapper">
-                    <canvas id="satisfactionChart" width="200" height="200"></canvas>
-                    <div class="donut-center-text">
-                        <div class="donut-percentage">94%</div>
-                        <div class="donut-label">Kepuasan</div>
+                <div class="donut-wrap">
+                    <canvas id="satisfactionChart"></canvas>
+                    <div class="donut-center">
+                        <div class="donut-pct">94%</div>
+                        <div class="donut-lbl">Kepuasan</div>
                     </div>
                 </div>
-                <div class="satisfaction-stats">
-                    <div class="sat-stat">
-                        <span class="sat-dot sat-dot-success"></span>
-                        <span class="sat-label">Sangat Puas</span>
-                        <span class="sat-value">65%</span>
+                <div class="satisfaction-legend">
+                    <div class="sat-row">
+                        <span class="sat-dot" style="background:#10b981;"></span>
+                        <span class="sat-name">Sangat Puas</span>
+                        <span class="sat-pct">65%</span>
                     </div>
-                    <div class="sat-stat">
-                        <span class="sat-dot sat-dot-primary"></span>
-                        <span class="sat-label">Puas</span>
-                        <span class="sat-value">25%</span>
+                    <div class="sat-row">
+                        <span class="sat-dot" style="background:#3b82f6;"></span>
+                        <span class="sat-name">Puas</span>
+                        <span class="sat-pct">25%</span>
                     </div>
-                    <div class="sat-stat">
-                        <span class="sat-dot sat-dot-warning"></span>
-                        <span class="sat-label">Cukup</span>
-                        <span class="sat-value">7%</span>
+                    <div class="sat-row">
+                        <span class="sat-dot" style="background:#f59e0b;"></span>
+                        <span class="sat-name">Cukup</span>
+                        <span class="sat-pct">7%</span>
                     </div>
-                    <div class="sat-stat">
-                        <span class="sat-dot sat-dot-danger"></span>
-                        <span class="sat-label">Kurang</span>
-                        <span class="sat-value">3%</span>
+                    <div class="sat-row">
+                        <span class="sat-dot" style="background:#ef4444;"></span>
+                        <span class="sat-name">Kurang</span>
+                        <span class="sat-pct">3%</span>
                     </div>
                 </div>
             </div>
@@ -265,191 +307,125 @@
 </div>
 
 {{-- ================================================================
-     GLOBAL SALES TABLE & TOP LOCATIONS STYLE
+     POPULAR EMPLOYEES + INSTANSI STATS
      ================================================================ --}}
 <div class="row g-4 mb-4">
     <div class="col-xl-5" data-aos="fade-right">
         <div class="dashboard-card h-100">
             <div class="card-header-custom">
                 <div class="card-header-left">
-                    <div class="card-header-icon icon-warning">
+                    <div class="card-icon-wrap icon-yellow">
                         <i class="fas fa-trophy"></i>
                     </div>
                     <div>
-                        <h5 class="card-title">Pegawai Terpopuler</h5>
-                        <p class="card-subtitle">Paling banyak dikunjungi bulan ini</p>
+                        <h5 class="card-title-main">Pegawai Terpopuler</h5>
+                        <p class="card-subtitle-main">Paling banyak dikunjungi bulan ini</p>
                     </div>
                 </div>
-                <span class="top-badge">TOP 5</span>
+                <span class="top5-badge">Top 5</span>
             </div>
             <div class="card-body-custom p-0">
                 <div class="ranking-list">
-                    <div class="ranking-item ranking-1">
-                        <div class="ranking-number">
-                            <i class="fas fa-crown"></i>
+                    @php
+                        $rankColors = ['rank-gold','rank-silver','rank-bronze','rank-4','rank-5'];
+                        $rankIcons  = ['fas fa-crown','2','3','4','5'];
+                        $employees = [
+                            ['name'=>'Dr. Ahmad Fauzi, M.Si.','pos'=>'Kepala Badan','visits'=>42,'avatar'=>'AF'],
+                            ['name'=>'Drs. Budi Santoso','pos'=>'Sekretaris','visits'=>38,'avatar'=>'BS'],
+                            ['name'=>'Siti Rahayu, S.Sos.','pos'=>'Bidang Mutasi','visits'=>35,'avatar'=>'SR'],
+                            ['name'=>'Rina Andriani, S.Kom.','pos'=>'Bidang Pengadaan','visits'=>29,'avatar'=>'RA'],
+                            ['name'=>'Joko Prasetyo, M.M.','pos'=>'Bidang Kompetensi','visits'=>24,'avatar'=>'JP'],
+                        ];
+                        $avatarColors = ['av-blue','av-teal','av-purple','av-orange','av-dark'];
+                    @endphp
+                    @foreach($employees as $i => $emp)
+                    <div class="rank-item {{ $i === 0 ? 'rank-item-top' : '' }}">
+                        <div class="rank-num-wrap {{ $rankColors[$i] }}">
+                            @if($i === 0)
+                                <i class="fas fa-crown"></i>
+                            @else
+                                {{ $i + 1 }}
+                            @endif
                         </div>
-                        <div class="ranking-avatar avatar-primary">
-                            <i class="fas fa-user-tie"></i>
+                        <div class="rank-avatar {{ $avatarColors[$i] }}">
+                            {{ $emp['avatar'] }}
                         </div>
-                        <div class="ranking-info">
-                            <div class="ranking-name">Dr. Ahmad Fauzi, M.Si.</div>
-                            <div class="ranking-position">Kepala Badan</div>
+                        <div class="rank-info">
+                            <div class="rank-name">{{ $emp['name'] }}</div>
+                            <div class="rank-pos">{{ $emp['pos'] }}</div>
                         </div>
-                        <div class="ranking-stats">
-                            <div class="ranking-count">42</div>
-                            <div class="ranking-label">kunjungan</div>
-                        </div>
-                    </div>
-                    <div class="ranking-item">
-                        <div class="ranking-number">2</div>
-                        <div class="ranking-avatar avatar-secondary">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <div class="ranking-info">
-                            <div class="ranking-name">Drs. Budi Santoso</div>
-                            <div class="ranking-position">Sekretaris</div>
-                        </div>
-                        <div class="ranking-stats">
-                            <div class="ranking-count">38</div>
-                            <div class="ranking-label">kunjungan</div>
-                        </div>
-                    </div>
-                    <div class="ranking-item">
-                        <div class="ranking-number">3</div>
-                        <div class="ranking-avatar avatar-purple">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <div class="ranking-info">
-                            <div class="ranking-name">Siti Rahayu, S.Sos.</div>
-                            <div class="ranking-position">Bidang Mutasi</div>
-                        </div>
-                        <div class="ranking-stats">
-                            <div class="ranking-count">35</div>
-                            <div class="ranking-label">kunjungan</div>
+                        <div class="rank-visits">
+                            <div class="rank-count">{{ $emp['visits'] }}</div>
+                            <div class="rank-count-lbl">Kunjungan</div>
                         </div>
                     </div>
-                    <div class="ranking-item">
-                        <div class="ranking-number">4</div>
-                        <div class="ranking-avatar avatar-warning">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <div class="ranking-info">
-                            <div class="ranking-name">Rina Andriani, S.Kom.</div>
-                            <div class="ranking-position">Bidang Pengadaan</div>
-                        </div>
-                        <div class="ranking-stats">
-                            <div class="ranking-count">29</div>
-                            <div class="ranking-label">kunjungan</div>
-                        </div>
-                    </div>
-                    <div class="ranking-item">
-                        <div class="ranking-number">5</div>
-                        <div class="ranking-avatar avatar-dark">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <div class="ranking-info">
-                            <div class="ranking-name">Joko Prasetyo, M.M.</div>
-                            <div class="ranking-position">Bidang Kompetensi</div>
-                        </div>
-                        <div class="ranking-stats">
-                            <div class="ranking-count">24</div>
-                            <div class="ranking-label">kunjungan</div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
+
+@push('styles')
+<style>
+    .perihal-row .perihal-icon-wrap {
+        background-color: var(--bg-color);
+        color: var(--color);
+    }
+    .perihal-row .perihal-fill {
+        width: var(--pct);
+        background-color: var(--color);
+    }
+</style>
+@endpush
             </div>
         </div>
     </div>
 
     <div class="col-xl-7" data-aos="fade-left">
-        <div class="row g-4 h-100">
+        <div class="row g-4 h-100 flex-column">
+            {{-- Global Sales by Top Locations --}}
             <div class="col-12">
                 <div class="dashboard-card">
                     <div class="card-header-custom">
                         <div class="card-header-left">
-                            <div class="card-header-icon icon-info">
-                                <i class="fas fa-globe-asia"></i>
+                            <div class="card-icon-wrap icon-cyan">
+                                <i class="fas fa-globe"></i>
                             </div>
                             <div>
-                                <h5 class="card-title">Global Sales by Top Locations</h5>
-                                <p class="card-subtitle">Penjualan global berdasarkan lokasi teratas</p>
+                                <h5 class="card-title-main">Global Sales by Top Locations</h5>
+                                <p class="card-subtitle-main">Penjualan global berdasarkan lokasi teratas</p>
                             </div>
                         </div>
                     </div>
                     <div class="card-body-custom p-0">
-                        <div class="global-sales-table">
-                            <table class="sales-table">
-                                <thead>
-                                    <tr>
-                                        <th>Country</th>
-                                        <th>Sales</th>
-                                        <th>Average</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="country-cell">
-                                                <span class="country-flag de"></span>
-                                                <span class="country-name">Germany</span>
-                                            </div>
-                                        </td>
-                                        <td class="sales-value">3,562</td>
-                                        <td class="average-value">
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 56.23%"></div>
-                                            </div>
-                                            <span class="average-percent">56.23%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="country-cell">
-                                                <span class="country-flag us"></span>
-                                                <span class="country-name">USA</span>
-                                            </div>
-                                        </td>
-                                        <td class="sales-value">2,650</td>
-                                        <td class="average-value">
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 25.23%"></div>
-                                            </div>
-                                            <span class="average-percent">25.23%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="country-cell">
-                                                <span class="country-flag au"></span>
-                                                <span class="country-name">Australia</span>
-                                            </div>
-                                        </td>
-                                        <td class="sales-value">956</td>
-                                        <td class="average-value">
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 12.45%"></div>
-                                            </div>
-                                            <span class="average-percent">12.45%</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="country-cell">
-                                                <span class="country-flag uk"></span>
-                                                <span class="country-name">United Kingdom</span>
-                                            </div>
-                                        </td>
-                                        <td class="sales-value">689</td>
-                                        <td class="average-value">
-                                            <div class="progress-bar">
-                                                <div class="progress-fill" style="width: 8.65%"></div>
-                                            </div>
-                                            <span class="average-percent">8.65%</span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="locations-table">
+                            <thead>
+                                <tr>
+                                    <th>Country</th>
+                                    <th>Sales</th>
+                                    <th>Average</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="flag-icon">🇩🇪</span> <span class="country-nm">Germany</span></td>
+                                    <td class="sales-num">3,562</td>
+                                    <td><div class="loc-progress-wrap"><div class="loc-progress-bar" style="width:56.23%"></div><span class="loc-pct">56.23%</span></div></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="flag-icon">🇺🇸</span> <span class="country-nm">USA</span></td>
+                                    <td class="sales-num">2,650</td>
+                                    <td><div class="loc-progress-wrap"><div class="loc-progress-bar" style="width:25.23%"></div><span class="loc-pct">25.23%</span></div></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="flag-icon">🇦🇺</span> <span class="country-nm">Australia</span></td>
+                                    <td class="sales-num">956</td>
+                                    <td><div class="loc-progress-wrap"><div class="loc-progress-bar" style="width:12.45%"></div><span class="loc-pct">12.45%</span></div></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="flag-icon">🇬🇧</span> <span class="country-nm">United Kingdom</span></td>
+                                    <td class="sales-num">689</td>
+                                    <td><div class="loc-progress-wrap"><div class="loc-progress-bar" style="width:8.65%"></div><span class="loc-pct">8.65%</span></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -458,39 +434,39 @@
 </div>
 
 {{-- ================================================================
-     QUICK ACTIONS & PERIHAL STATS
+     QUICK ACTIONS + PERIHAL STATS
      ================================================================ --}}
 <div class="row g-4 mb-4">
     <div class="col-xl-4" data-aos="fade-up">
         <div class="dashboard-card">
             <div class="card-header-custom">
                 <div class="card-header-left">
-                    <div class="card-header-icon icon-danger">
+                    <div class="card-icon-wrap icon-red">
                         <i class="fas fa-bolt"></i>
                     </div>
                     <div>
-                        <h5 class="card-title">Aksi Cepat</h5>
-                        <p class="card-subtitle">Akses cepat menu utama</p>
+                        <h5 class="card-title-main">Aksi Cepat</h5>
+                        <p class="card-subtitle-main">Akses cepat menu utama</p>
                     </div>
                 </div>
             </div>
             <div class="card-body-custom">
-                <div class="quick-actions-grid">
-                    <a href="{{ route('tamu.create') }}" class="quick-action-card action-primary">
-                        <div class="action-icon"><i class="fas fa-user-plus"></i></div>
-                        <span class="action-label">Tambah Tamu</span>
+                <div class="quick-grid">
+                    <a href="{{ route('tamu.create') }}" class="quick-btn quick-btn-blue">
+                        <div class="quick-btn-icon"><i class="fas fa-user-plus"></i></div>
+                        <span>Tambah Tamu</span>
                     </a>
-                    <a href="{{ route('tamu.index') }}" class="quick-action-card action-success">
-                        <div class="action-icon"><i class="fas fa-list-ul"></i></div>
-                        <span class="action-label">Data Tamu</span>
+                    <a href="{{ route('tamu.index') }}" class="quick-btn quick-btn-green">
+                        <div class="quick-btn-icon"><i class="fas fa-list-ul"></i></div>
+                        <span>Data Tamu</span>
                     </a>
-                    <a href="{{ route('pegawai.index') }}" class="quick-action-card action-purple">
-                        <div class="action-icon"><i class="fas fa-address-card"></i></div>
-                        <span class="action-label">Data Pegawai</span>
+                    <a href="{{ route('pegawai.index') }}" class="quick-btn quick-btn-purple">
+                        <div class="quick-btn-icon"><i class="fas fa-address-card"></i></div>
+                        <span>Data Pegawai</span>
                     </a>
-                    <a href="{{ route('dashboard.export.pdf') }}" class="quick-action-card action-warning">
-                        <div class="action-icon"><i class="fas fa-file-alt"></i></div>
-                        <span class="action-label">Laporan</span>
+                    <a href="{{ route('dashboard.export.pdf') }}" class="quick-btn quick-btn-orange">
+                        <div class="quick-btn-icon"><i class="fas fa-file-pdf"></i></div>
+                        <span>Laporan</span>
                     </a>
                 </div>
             </div>
@@ -501,87 +477,42 @@
         <div class="dashboard-card">
             <div class="card-header-custom">
                 <div class="card-header-left">
-                    <div class="card-header-icon icon-cyan">
-                        <i class="fas fa-chart-simple"></i>
+                    <div class="card-icon-wrap icon-teal">
+                        <i class="fas fa-chart-bar"></i>
                     </div>
                     <div>
-                        <h5 class="card-title">Statistik Perihal</h5>
-                        <p class="card-subtitle">Top 5 keperluan kunjungan</p>
+                        <h5 class="card-title-main">Statistik Perihal</h5>
+                        <p class="card-subtitle-main">Top 5 keperluan kunjungan</p>
                     </div>
                 </div>
             </div>
             <div class="card-body-custom">
-                <div class="perihal-stats">
-                    <div class="perihal-item">
-                        <div class="perihal-icon perihal-primary">
-                            <i class="fas fa-arrow-up"></i>
+                @php
+                    $perihals = [
+                        ['label'=>'Kenaikan Pangkat','count'=>45,'pct'=>75,'icon'=>'fas fa-arrow-trend-up','color'=>'#3b82f6','bg'=>'rgba(59,130,246,0.1)'],
+                        ['label'=>'Gaji Berkala','count'=>38,'pct'=>63,'icon'=>'fas fa-money-bill-wave','color'=>'#10b981','bg'=>'rgba(16,185,129,0.1)'],
+                        ['label'=>'Mutasi Pegawai','count'=>32,'pct'=>53,'icon'=>'fas fa-arrows-left-right','color'=>'#06b6d4','bg'=>'rgba(6,182,212,0.1)'],
+                        ['label'=>'Konsultasi','count'=>28,'pct'=>47,'icon'=>'fas fa-comments','color'=>'#f59e0b','bg'=>'rgba(245,158,11,0.1)'],
+                        ['label'=>'Diklat ASN','count'=>22,'pct'=>37,'icon'=>'fas fa-graduation-cap','color'=>'#ef4444','bg'=>'rgba(239,68,68,0.1)'],
+                    ];
+                @endphp
+                <div class="perihal-list">
+                    @foreach($perihals as $p)
+                    <div class="perihal-row" style="--bg-color: {{ $p['bg'] }}; --color: {{ $p['color'] }}; --pct: {{ $p['pct'] }}%;">
+                        <div class="perihal-icon-wrap">
+                            <i class="{{ $p['icon'] }}"></i>
                         </div>
-                        <div class="perihal-content">
-                            <div class="perihal-header">
-                                <span class="perihal-name">Kenaikan Pangkat</span>
-                                <span class="perihal-count">45</span>
+                        <div class="perihal-details">
+                            <div class="perihal-top">
+                                <span class="perihal-lbl">{{ $p['label'] }}</span>
+                                <span class="perihal-cnt">{{ $p['count'] }}</span>
                             </div>
-                            <div class="progress-track">
-                                <div class="progress-fill-primary" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="perihal-item">
-                        <div class="perihal-icon perihal-success">
-                            <i class="fas fa-money-bill"></i>
-                        </div>
-                        <div class="perihal-content">
-                            <div class="perihal-header">
-                                <span class="perihal-name">Gaji Berkala</span>
-                                <span class="perihal-count">38</span>
-                            </div>
-                            <div class="progress-track">
-                                <div class="progress-fill-success" style="width: 63%"></div>
+                            <div class="perihal-track">
+                                <div class="perihal-fill"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="perihal-item">
-                        <div class="perihal-icon perihal-info">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
-                        <div class="perihal-content">
-                            <div class="perihal-header">
-                                <span class="perihal-name">Mutasi Pegawai</span>
-                                <span class="perihal-count">32</span>
-                            </div>
-                            <div class="progress-track">
-                                <div class="progress-fill-info" style="width: 53%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="perihal-item">
-                        <div class="perihal-icon perihal-warning">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <div class="perihal-content">
-                            <div class="perihal-header">
-                                <span class="perihal-name">Konsultasi</span>
-                                <span class="perihal-count">28</span>
-                            </div>
-                            <div class="progress-track">
-                                <div class="progress-fill-warning" style="width: 47%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="perihal-item">
-                        <div class="perihal-icon perihal-danger">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="perihal-content">
-                            <div class="perihal-header">
-                                <span class="perihal-name">Diklat ASN</span>
-                                <span class="perihal-count">22</span>
-                            </div>
-                            <div class="progress-track">
-                                <div class="progress-fill-danger" style="width: 37%"></div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -589,85 +520,85 @@
 </div>
 
 {{-- ================================================================
-     RECENT VISITORS TABLE - Enhanced
+     RECENT TAMU TABLE - Enhanced Premium
      ================================================================ --}}
-<div class="dashboard-card" data-aos="fade-up" data-aos-delay="200">
+<div class="dashboard-card mb-4" data-aos="fade-up" data-aos-delay="200">
     <div class="card-header-custom">
         <div class="card-header-left">
-            <div class="card-header-icon icon-primary">
+            <div class="card-icon-wrap icon-blue">
                 <i class="fas fa-clock-rotate-left"></i>
             </div>
             <div>
-                <h5 class="card-title">Tamu Terbaru</h5>
-                <p class="card-subtitle">5 kunjungan terakhir</p>
+                <h5 class="card-title-main">Tamu Terbaru</h5>
+                <p class="card-subtitle-main">5 kunjungan terakhir</p>
             </div>
         </div>
-        <a href="{{ route('tamu.index') }}" class="view-all-link">
+        <a href="{{ route('tamu.index') }}" class="view-all-btn">
             Lihat Semua <i class="fas fa-arrow-right ms-1"></i>
         </a>
     </div>
     <div class="card-body-custom p-0">
         <div class="table-responsive">
-            <table class="visitors-table">
+            <table class="tamu-table">
                 <thead>
                     <tr>
-                        <th class="col-number">#</th>
+                        <th class="th-num">#</th>
                         <th>Nama Tamu</th>
-                        <th class="col-contact">Kontak</th>
-                        <th class="col-institution">Instansi</th>
+                        <th class="th-contact">Kontak</th>
+                        <th class="th-inst">Instansi</th>
                         <th>Bertemu</th>
-                        <th class="col-purpose">Perihal</th>
+                        <th class="th-perihal">Perihal</th>
                         <th>Waktu</th>
-                        <th class="col-actions">Aksi</th>
+                        <th class="th-aksi">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($tamuTerbaru as $index => $tamu)
                     <tr>
-                        <td class="col-number">
-                            <div class="table-number">{{ $index + 1 }}</div>
+                        <td class="th-num">
+                            <div class="tbl-num-badge">{{ $index + 1 }}</div>
                         </td>
                         <td>
-                            <div class="visitor-cell">
-                                <div class="visitor-avatar avatar-{{ ['primary', 'success', 'purple', 'warning', 'dark'][$index % 5] }}">
+                            <div class="tbl-visitor-cell">
+                                <div class="tbl-avatar av-{{ ['blue','green','purple','orange','dark'][$index % 5] }}">
                                     {{ strtoupper(substr($tamu->nama, 0, 1)) }}
                                 </div>
-                                <div class="visitor-info">
-                                    <div class="visitor-name">{{ $tamu->nama }}</div>
-                                    <div class="visitor-id">{{ $tamu->nip_nik ?? '-' }}</div>
+                                <div>
+                                    <div class="tbl-name">{{ $tamu->nama }}</div>
+                                    <div class="tbl-id">{{ $tamu->nip_nik ?? '-' }}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="col-contact">
+                        <td class="th-contact">
                             @if($tamu->no_hp)
-                            <span class="contact-badge">
-                                <i class="fas fa-phone-alt"></i> {{ $tamu->no_hp }}
+                            <span class="tbl-contact-chip">
+                                <i class="fas fa-phone-flip"></i> {{ $tamu->no_hp }}
                             </span>
                             @else
                             <span class="text-muted">—</span>
                             @endif
                         </td>
-                        <td class="col-institution">
-                            <span class="institution-text">{{ Str::limit($tamu->instansi ?? '—', 30) }}</span>
+                        <td class="th-inst">
+                            <span class="tbl-inst-text">{{ Str::limit($tamu->instansi ?? '—', 28) }}</span>
                         </td>
                         <td>
-                            <span class="meet-badge">{{ $tamu->bertemu_dengan }}</span>
+                            <span class="tbl-meet-badge">{{ $tamu->bertemu_dengan }}</span>
                         </td>
-                        <td class="col-purpose">
-                            <span class="purpose-text">{{ Str::limit($tamu->perihal ?? '—', 40) }}</span>
+                        <td class="th-perihal">
+                            <span class="tbl-purpose">{{ Str::limit($tamu->perihal ?? '—', 40) }}</span>
                         </td>
                         <td>
-                            <div class="visit-time">
-                                <div class="visit-date">{{ $tamu->tanggal_kunjungan->format('d/m/Y') }}</div>
-                                <div class="visit-hour">{{ $tamu->tanggal_kunjungan->format('H:i') }}</div>
+                            <div class="tbl-time">
+                                <div class="tbl-date">{{ $tamu->tanggal_kunjungan->format('d/m/Y') }}</div>
+                                <div class="tbl-hour">{{ $tamu->tanggal_kunjungan->format('H:i') }}</div>
                             </div>
                         </td>
-                        <td class="col-actions">
-                            <div class="action-buttons">
-                                <a href="{{ route('tamu.show', $tamu->id) }}" class="action-btn action-view" title="Lihat Detail">
+                        <td class="th-aksi">
+                            <div class="tbl-actions">
+                                <a href="{{ route('tamu.show', $tamu->id) }}" class="tbl-btn tbl-btn-view" title="Lihat Detail">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ route('tamu.edit', $tamu->id) }}" class="action-btn action-edit" title="Edit">
+                                <a href="{{ route('tamu.edit', $tamu->id) }}" class="tbl-btn tbl-btn-edit" title="Edit">
                                     <i class="fas fa-pen"></i>
                                 </a>
                             </div>
@@ -677,12 +608,12 @@
                     <tr>
                         <td colspan="8">
                             <div class="empty-state">
-                                <div class="empty-icon">
+                                <div class="empty-icon-wrap">
                                     <i class="fas fa-inbox"></i>
                                 </div>
                                 <h6 class="empty-title">Belum Ada Data Tamu</h6>
-                                <p class="empty-text">Data kunjungan tamu akan muncul di sini</p>
-                                <a href="{{ route('tamu.create') }}" class="empty-button">
+                                <p class="empty-desc">Data kunjungan tamu akan muncul di sini</p>
+                                <a href="{{ route('tamu.create') }}" class="empty-cta">
                                     <i class="fas fa-plus me-1"></i>Tambah Tamu Baru
                                 </a>
                             </div>
@@ -698,1108 +629,754 @@
 @endsection
 
 @push('styles')
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <style>
+/* =============================================
+   CSS VARIABLES & BASE
+   ============================================= */
 :root {
-    --primary: #1a56db;
-    --primary-dark: #1342b2;
-    --success: #059669;
-    --success-dark: #047857;
-    --purple: #7c3aed;
-    --purple-dark: #5b21b6;
-    --warning: #d97706;
-    --warning-dark: #b45309;
-    --danger: #dc2626;
-    --info: #0891b2;
-    --dark: #1e293b;
-    --gray-50: #f8fafc;
-    --gray-100: #f1f5f9;
-    --gray-200: #e2e8f0;
-    --gray-300: #cbd5e1;
-    --gray-400: #94a3b8;
-    --gray-500: #64748b;
-    --gray-600: #475569;
-    --gray-700: #334155;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --blue:    #3b82f6;
+    --green:   #10b981;
+    --purple:  #8b5cf6;
+    --orange:  #f59e0b;
+    --red:     #ef4444;
+    --cyan:    #06b6d4;
+    --teal:    #14b8a6;
+    --dark:    #0f172a;
+    --dark2:   #1e293b;
+    --mid:     #334155;
+    --muted:   #64748b;
+    --light:   #94a3b8;
+    --border:  #e2e8f0;
+    --bg:      #f8fafc;
+    --white:   #ffffff;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+    --shadow:    0 4px 12px rgba(0,0,0,.08);
+    --shadow-md: 0 8px 24px rgba(0,0,0,.10);
+    --shadow-lg: 0 16px 40px rgba(0,0,0,.12);
+    --radius:    20px;
+    --radius-sm: 12px;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark2);
 }
 
-/* Welcome Card - Modern Design */
+/* =============================================
+   WELCOME CARD
+   ============================================= */
 .welcome-card {
-    background: linear-gradient(135deg, #1a56db 0%, #7c3aed 100%);
-    border-radius: 24px;
-    overflow: hidden;
     position: relative;
-    box-shadow: var(--shadow-xl);
+    background: linear-gradient(135deg, #1a56db 0%, #5b21b6 60%, #7c3aed 100%);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
 }
 
-.welcome-card-gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.15) 0%, transparent 70%);
-    pointer-events: none;
+.welcome-card-bg {
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 80% 20%, rgba(251,191,36,.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 10% 80%, rgba(255,255,255,.10) 0%, transparent 50%);
+}
+
+.welcome-card-dots {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,.1) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse at 70% 50%, black 30%, transparent 70%);
 }
 
 .welcome-card-content {
     position: relative;
-    padding: 2rem 2.5rem;
+    padding: 2.2rem 2.5rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 2rem;
+    flex-wrap: wrap;
 }
 
-.welcome-text-section {
-    flex: 1;
-    min-width: 280px;
-}
+.welcome-text-section { flex: 1; min-width: 260px; }
 
 .welcome-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    padding: 0.4rem 1rem;
+    gap: .4rem;
+    background: rgba(255,255,255,.18);
+    backdrop-filter: blur(8px);
+    padding: .35rem .9rem;
     border-radius: 40px;
-    color: white;
-    font-size: 0.7rem;
+    color: rgba(255,255,255,.95);
+    font-size: .72rem;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: .4px;
     margin-bottom: 1rem;
-}
-
-.welcome-badge i {
-    font-size: 0.8rem;
+    border: 1px solid rgba(255,255,255,.25);
 }
 
 .welcome-title {
-    font-size: 2rem;
+    font-size: 1.9rem;
     font-weight: 800;
     color: white;
-    margin-bottom: 0.75rem;
-    letter-spacing: -0.02em;
+    margin-bottom: .6rem;
+    letter-spacing: -.02em;
+    line-height: 1.2;
 }
 
 .welcome-name {
-    background: linear-gradient(135deg, #fff, #fbbf24);
+    background: linear-gradient(90deg, #fff 40%, #fbbf24);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    position: relative;
 }
 
 .welcome-wave {
     display: inline-block;
-    animation: wave 1s ease-in-out infinite;
-    margin-left: 0.5rem;
+    animation: waveHand 1.2s ease-in-out infinite;
 }
-
-@keyframes wave {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(15deg); }
+@keyframes waveHand {
+    0%,100% { transform: rotate(0deg); }
+    40%      { transform: rotate(18deg); }
+    70%      { transform: rotate(-8deg); }
 }
 
 .welcome-subtitle {
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.9);
-    margin-bottom: 1.5rem;
+    font-size: .88rem;
+    color: rgba(255,255,255,.82);
+    margin-bottom: 1.1rem;
     line-height: 1.6;
 }
 
-.welcome-highlight {
-    display: inline-block;
-    background: rgba(255,255,255,0.15);
-    padding: 0.2rem 0.6rem;
-    border-radius: 20px;
-    font-weight: 500;
-}
-
-.welcome-stats {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-
-.welcome-stat-item {
-    display: flex;
+.welcome-cta-btn {
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    color: rgba(255,255,255,0.85);
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.welcome-stat-item i {
-    font-size: 0.9rem;
-    color: #fbbf24;
-}
-
-.welcome-illustration {
-    flex-shrink: 0;
-}
-
-.welcome-animation {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.welcome-circle {
-    position: absolute;
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
-}
-
-.welcome-circle-1 {
-    width: 100px;
-    height: 100px;
-    background: rgba(255,255,255,0.1);
-    animation-delay: 0s;
-}
-
-.welcome-circle-2 {
-    width: 80px;
-    height: 80px;
-    background: rgba(255,255,255,0.15);
-    animation-delay: 0.4s;
-}
-
-.welcome-circle-3 {
-    width: 60px;
-    height: 60px;
-    background: rgba(255,255,255,0.2);
-    animation-delay: 0.8s;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(0.9);
-        opacity: 0.5;
-    }
-    50% {
-        transform: scale(1.1);
-        opacity: 1;
-    }
-}
-
-.welcome-icon {
-    position: relative;
-    z-index: 1;
-    font-size: 2.5rem;
-    color: #fbbf24;
-    animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-8px);
-    }
-}
-
-/* Dashboard Header */
-.dash-header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    border-radius: 20px;
-    padding: 1rem 1.5rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    box-shadow: var(--shadow-md);
-    position: relative;
-    overflow: hidden;
-}
-
-.dash-header::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    border-radius: 50%;
-}
-
-.dash-header-right {
-    display: flex;
-    gap: 0.75rem;
-    position: relative;
-    z-index: 1;
-}
-
-.dash-date-chip {
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    padding: 0.5rem 1rem;
-    border-radius: 12px;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.35);
     color: white;
-    font-size: 0.875rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.dash-export-btn {
-    background: white;
-    color: var(--primary);
-    border: none;
-    padding: 0.5rem 1.25rem;
-    border-radius: 12px;
+    padding: .5rem 1.25rem;
+    border-radius: 40px;
+    font-size: .82rem;
     font-weight: 600;
-    font-size: 0.875rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.3s ease;
+    text-decoration: none;
+    margin-bottom: 1.4rem;
+    transition: all .25s;
+    backdrop-filter: blur(8px);
+}
+.welcome-cta-btn:hover {
+    background: rgba(255,255,255,.28);
+    color: white;
+    transform: translateY(-1px);
 }
 
-.dash-export-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
-/* Stat Cards */
-.stat-card {
-    background: white;
-    border-radius: 20px;
-    padding: 1.25rem;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-}
-
-.stat-card-blue::before { background: linear-gradient(90deg, var(--primary), var(--info)); }
-.stat-card-green::before { background: linear-gradient(90deg, var(--success), #34d399); }
-.stat-card-purple::before { background: linear-gradient(90deg, var(--purple), #a78bfa); }
-.stat-card-orange::before { background: linear-gradient(90deg, var(--warning), #fbbf24); }
-
-.stat-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-}
-
-.stat-card-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.stat-card-left {
+.welcome-meta {
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex-wrap: wrap;
 }
-
-.stat-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
+.welcome-meta-item {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
+    gap: .45rem;
+    color: rgba(255,255,255,.82);
+    font-size: .78rem;
+    font-weight: 500;
+}
+.welcome-meta-item i { color: #fbbf24; font-size: .85rem; }
+.welcome-meta-item strong { color: white; }
+.welcome-meta-divider {
+    width: 1px; height: 18px;
+    background: rgba(255,255,255,.3);
 }
 
-.stat-icon-blue { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
-.stat-icon-green { background: linear-gradient(135deg, var(--success), var(--success-dark)); color: white; }
-.stat-icon-purple { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); color: white; }
-.stat-icon-orange { background: linear-gradient(135deg, var(--warning), var(--warning-dark)); color: white; }
+/* SVG Illustration */
+.welcome-illustration-wrap { flex-shrink: 0; }
+.welcome-svg { width: 220px; height: 180px; filter: drop-shadow(0 8px 24px rgba(0,0,0,.25)); }
+.bar-anim { animation: barGrow .8s ease-out both; transform-origin: bottom; }
+.bar1 { animation-delay: .1s; }
+.bar2 { animation-delay: .2s; }
+.bar3 { animation-delay: .3s; }
+.bar4 { animation-delay: .4s; }
+.bar5 { animation-delay: .5s; }
+@keyframes barGrow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.line-anim { stroke-dasharray: 200; stroke-dashoffset: 200; animation: drawLine 1.2s ease-out .6s forwards; }
+@keyframes drawLine { to { stroke-dashoffset: 0; } }
+.float-anim { animation: floatBubble 3s ease-in-out infinite; }
+@keyframes floatBubble { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+.donut-anim { animation: rotateDonut 2s linear infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes rotateDonut { from{stroke-dashoffset:25} to{stroke-dashoffset:-88} }
 
-.stat-value {
-    font-size: 1.75rem;
+/* =============================================
+   STAT CARDS
+   ============================================= */
+.stat-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: all .3s ease;
+}
+.stat-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+}
+
+.stat-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1.25rem 1.25rem .5rem;
+}
+
+.stat-icon-wrap {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+}
+.stat-blue   { background: rgba(59,130,246,.12); color: var(--blue); }
+.stat-green  { background: rgba(16,185,129,.12); color: var(--green); }
+.stat-purple { background: rgba(139,92,246,.12); color: var(--purple); }
+.stat-orange { background: rgba(245,158,11,.12); color: var(--orange); }
+
+.stat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    padding: .25rem .6rem;
+    border-radius: 20px;
+    font-size: .72rem;
+    font-weight: 600;
+}
+.stat-badge-up    { background: rgba(16,185,129,.12); color: var(--green); }
+.stat-badge-cal   { background: rgba(59,130,246,.12); color: var(--blue); }
+.stat-badge-check { background: rgba(139,92,246,.12); color: var(--purple); }
+.stat-badge-smile { background: rgba(245,158,11,.12); color: var(--orange); }
+
+.stat-card-body { padding: .25rem 1.25rem .75rem; }
+
+.stat-value-large {
+    font-size: 2.2rem;
     font-weight: 800;
     color: var(--dark);
-    margin-bottom: 0.25rem;
+    letter-spacing: -.03em;
+    line-height: 1;
+}
+.stat-label-text {
+    font-size: .68rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: .08em;
+    margin-top: .25rem;
 }
 
-.stat-percent {
-    font-size: 1rem;
+.stat-sparkline-wrap { margin-top: .75rem; }
+.sparkline-svg { width: 100%; height: 35px; }
+
+.stat-card-footer {
+    border-top: 1px solid var(--border);
+    padding: .75rem 1.25rem;
+}
+.stat-footer-link {
+    font-size: .75rem;
     font-weight: 600;
-}
-
-.stat-label {
-    font-size: 0.75rem;
-    color: var(--gray-500);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.stat-trend {
-    padding: 0.25rem 0.5rem;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.stat-trend-up {
-    background: #d1fae5;
-    color: var(--success);
-}
-
-.stat-trend-neutral {
-    background: #e0e7ff;
-    color: var(--primary);
-}
-
-.stat-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 1rem;
-    border-top: 1px solid var(--gray-100);
-}
-
-.stat-link {
-    color: var(--gray-500);
+    color: var(--blue);
     text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    transition: gap .2s;
 }
+.stat-footer-link:hover { gap: .6rem; color: var(--blue); }
 
-.stat-link:hover {
-    color: var(--primary);
-}
-
-.stat-chart {
-    width: 100px;
-    height: 30px;
-}
-
-.stat-sparkline {
-    width: 100%;
-    height: 100%;
-}
-
-/* Dashboard Cards */
+/* =============================================
+   DASHBOARD CARD SHARED
+   ============================================= */
 .dashboard-card {
-    background: white;
-    border-radius: 20px;
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
-    box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
+    transition: box-shadow .3s;
 }
-
-.dashboard-card:hover {
-    box-shadow: var(--shadow-xl);
-}
+.dashboard-card:hover { box-shadow: var(--shadow); }
 
 .card-header-custom {
-    padding: 1.25rem 1.5rem;
-    background: var(--gray-50);
-    border-bottom: 1px solid var(--gray-200);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    gap: .75rem;
 }
-
 .card-header-left {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: .9rem;
 }
 
-.card-header-icon {
-    width: 40px;
-    height: 40px;
+.card-icon-wrap {
+    width: 42px; height: 42px;
     border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.05rem;
+    flex-shrink: 0;
 }
+.icon-blue   { background: rgba(59,130,246,.12); color: var(--blue); }
+.icon-green  { background: rgba(16,185,129,.12); color: var(--green); }
+.icon-yellow { background: rgba(245,158,11,.12); color: var(--orange); }
+.icon-cyan   { background: rgba(6,182,212,.12);  color: var(--cyan); }
+.icon-teal   { background: rgba(20,184,166,.12); color: var(--teal); }
+.icon-red    { background: rgba(239,68,68,.12);  color: var(--red); }
+.icon-purple { background: rgba(139,92,246,.12); color: var(--purple); }
 
-.icon-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
-.icon-success { background: linear-gradient(135deg, var(--success), var(--success-dark)); color: white; }
-.icon-warning { background: linear-gradient(135deg, var(--warning), var(--warning-dark)); color: white; }
-.icon-info { background: linear-gradient(135deg, var(--info), #06b6d4); color: white; }
-.icon-danger { background: linear-gradient(135deg, var(--danger), #ef4444); color: white; }
-.icon-cyan { background: linear-gradient(135deg, #06b6d4, #0891b2); color: white; }
-
-.card-title {
-    font-size: 1rem;
+.card-title-main {
+    font-size: .95rem;
     font-weight: 700;
     color: var(--dark);
-    margin-bottom: 0.25rem;
+    margin: 0;
+}
+.card-subtitle-main {
+    font-size: .75rem;
+    color: var(--muted);
+    margin: .15rem 0 0;
 }
 
-.card-subtitle {
-    font-size: 0.75rem;
-    color: var(--gray-500);
-}
+.card-body-custom { padding: 1.25rem 1.5rem; }
 
-.card-body-custom {
-    padding: 1.5rem;
+/* =============================================
+   PERIOD SELECT BUTTON
+   ============================================= */
+.period-select-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: .4rem 1rem;
+    border-radius: 10px;
+    font-size: .75rem;
+    font-weight: 600;
+    color: var(--muted);
+    transition: all .2s;
+    cursor: pointer;
 }
+.period-select-btn:hover { border-color: var(--blue); color: var(--blue); }
+.dropdown-item.active, .dropdown-item:active { background: var(--blue); }
 
-/* Chart Container */
-.chart-container {
-    height: 320px;
+/* =============================================
+   CHART AREAS
+   ============================================= */
+.chart-area { position: relative; height: 260px; }
+
+.donut-wrap {
     position: relative;
+    width: 170px; height: 170px;
+    margin: 0 auto 1rem;
 }
-
-/* Donut Chart */
-.donut-chart-wrapper {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    margin: 0 auto 1.5rem;
-}
-
-.donut-center-text {
+.donut-wrap canvas { width: 100% !important; height: 100% !important; }
+.donut-center {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.donut-percentage {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: var(--dark);
-}
-
-.donut-label {
-    font-size: 0.7rem;
-    color: var(--gray-500);
-    font-weight: 500;
-}
-
-/* Satisfaction Stats */
-.satisfaction-stats {
+    inset: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
 }
+.donut-pct  { font-size: 1.7rem; font-weight: 800; color: var(--dark); }
+.donut-lbl  { font-size: .72rem; color: var(--muted); font-weight: 600; }
 
-.sat-stat {
+.satisfaction-legend { display: flex; flex-direction: column; gap: .6rem; }
+.sat-row {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    background: var(--gray-50);
-    border-radius: 10px;
-    transition: all 0.3s ease;
+    gap: .6rem;
 }
-
-.sat-stat:hover {
-    background: var(--gray-100);
-}
-
 .sat-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 3px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
+.sat-name { flex: 1; font-size: .78rem; color: var(--dark2); font-weight: 500; }
+.sat-pct  { font-size: .78rem; font-weight: 700; color: var(--dark); }
 
-.sat-dot-success { background: #10b981; }
-.sat-dot-primary { background: var(--primary); }
-.sat-dot-warning { background: var(--warning); }
-.sat-dot-danger { background: var(--danger); }
+/* =============================================
+   RANKING LIST
+   ============================================= */
+.ranking-list { padding: 0; }
 
-.sat-label {
-    flex: 1;
-    font-size: 0.875rem;
-    color: var(--gray-600);
-    font-weight: 500;
+.rank-item {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    padding: .9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    transition: background .2s;
 }
+.rank-item:last-child { border-bottom: 0; }
+.rank-item:hover { background: var(--bg); }
+.rank-item-top { background: linear-gradient(135deg,rgba(245,158,11,.05),rgba(251,191,36,.02)); }
 
-.sat-value {
-    font-size: 0.875rem;
+.rank-num-wrap {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.rank-gold   { background: linear-gradient(135deg,#f59e0b,#fbbf24); color: white; }
+.rank-silver { background: #cbd5e1; color: #64748b; }
+.rank-bronze { background: linear-gradient(135deg,#d97706,#b45309); color: white; }
+.rank-4      { background: var(--bg); color: var(--muted); }
+.rank-5      { background: var(--bg); color: var(--muted); }
+
+.rank-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+}
+.av-blue   { background: linear-gradient(135deg,#3b82f6,#1d4ed8); }
+.av-teal   { background: linear-gradient(135deg,#14b8a6,#0f766e); }
+.av-purple { background: linear-gradient(135deg,#8b5cf6,#6d28d9); }
+.av-orange { background: linear-gradient(135deg,#f59e0b,#d97706); }
+.av-dark   { background: linear-gradient(135deg,#475569,#334155); }
+
+.rank-info { flex: 1; min-width: 0; }
+.rank-name {
+    font-size: .82rem;
     font-weight: 700;
     color: var(--dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rank-pos { font-size: .72rem; color: var(--muted); margin-top: .1rem; }
+
+.rank-visits { text-align: right; }
+.rank-count { font-size: 1.1rem; font-weight: 800; color: var(--blue); }
+.rank-count-lbl { font-size: .65rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+
+.top5-badge {
+    display: inline-flex;
+    padding: .25rem .75rem;
+    background: rgba(245,158,11,.12);
+    color: var(--orange);
+    border-radius: 20px;
+    font-size: .7rem;
+    font-weight: 700;
+    border: 1px solid rgba(245,158,11,.25);
 }
 
-/* Global Sales Table */
-.global-sales-table {
-    overflow-x: auto;
-}
-
-.sales-table {
+/* =============================================
+   LOCATIONS TABLE
+   ============================================= */
+.locations-table {
     width: 100%;
     border-collapse: collapse;
 }
-
-.sales-table thead th {
-    padding: 1rem 1.25rem;
-    text-align: left;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--gray-500);
-    background: var(--gray-50);
-    border-bottom: 1px solid var(--gray-200);
+.locations-table thead tr {
+    background: var(--bg);
 }
-
-.sales-table tbody td {
-    padding: 0.875rem 1.25rem;
-    border-bottom: 1px solid var(--gray-100);
-    font-size: 0.875rem;
-}
-
-.country-cell {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.country-flag {
-    width: 24px;
-    height: 18px;
-    border-radius: 2px;
-    display: inline-block;
-}
-
-.country-flag.de { background: linear-gradient(135deg, #000, #ff0000); }
-.country-flag.us { background: linear-gradient(135deg, #002868, #bf0a30); }
-.country-flag.au { background: linear-gradient(135deg, #012169, #ffffff); }
-.country-flag.uk { background: linear-gradient(135deg, #012169, #ffffff); }
-
-.country-name {
-    font-weight: 500;
-    color: var(--gray-700);
-}
-
-.sales-value {
+.locations-table thead th {
+    padding: .75rem 1.25rem;
+    font-size: .68rem;
     font-weight: 700;
-    color: var(--dark);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+.locations-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background .2s;
+}
+.locations-table tbody tr:last-child { border-bottom: 0; }
+.locations-table tbody tr:hover { background: var(--bg); }
+.locations-table tbody td {
+    padding: .85rem 1.25rem;
+    font-size: .82rem;
+    vertical-align: middle;
 }
 
-.average-value {
+.flag-icon { font-size: 1.1rem; margin-right: .5rem; }
+.country-nm { font-weight: 600; color: var(--dark); }
+.sales-num  { font-weight: 700; color: var(--dark2); }
+
+.loc-progress-wrap {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: .6rem;
 }
-
-.progress-bar {
+.loc-progress-bar {
     flex: 1;
     height: 6px;
-    background: var(--gray-200);
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--info));
-    border-radius: 3px;
-}
-
-.average-percent {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--gray-500);
-    min-width: 50px;
-}
-
-/* Ranking List */
-.ranking-list {
-    padding: 0.5rem 0;
-}
-
-.ranking-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.875rem 1.5rem;
-    border-bottom: 1px solid var(--gray-100);
-    transition: all 0.3s ease;
-}
-
-.ranking-item:hover {
-    background: var(--gray-50);
-}
-
-.ranking-number {
-    width: 32px;
-    height: 32px;
+    background: var(--blue);
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.875rem;
-    font-weight: 700;
-    background: var(--gray-100);
-    color: var(--gray-600);
+    max-width: 120px;
 }
+.loc-pct { font-size: .72rem; font-weight: 700; color: var(--muted); white-space: nowrap; }
 
-.ranking-1 .ranking-number {
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
-    color: white;
-}
-
-.ranking-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1rem;
-}
-
-.avatar-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
-.avatar-secondary { background: linear-gradient(135deg, var(--gray-400), var(--gray-500)); }
-.avatar-purple { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); }
-.avatar-warning { background: linear-gradient(135deg, var(--warning), var(--warning-dark)); }
-.avatar-dark { background: linear-gradient(135deg, var(--dark), #0f172a); }
-
-.ranking-info {
-    flex: 1;
-}
-
-.ranking-name {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 0.125rem;
-}
-
-.ranking-position {
-    font-size: 0.7rem;
-    color: var(--gray-500);
-}
-
-.ranking-stats {
-    text-align: right;
-}
-
-.ranking-count {
-    font-size: 1.125rem;
-    font-weight: 800;
-    color: var(--primary);
-}
-
-.ranking-label {
-    font-size: 0.65rem;
-    color: var(--gray-500);
-    text-transform: uppercase;
-}
-
-.top-badge {
-    background: linear-gradient(135deg, var(--warning), var(--warning-dark));
-    color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 700;
-}
-
-/* Quick Actions Grid */
-.quick-actions-grid {
+/* =============================================
+   QUICK ACTIONS GRID
+   ============================================= */
+.quick-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
-
-.quick-action-card {
+.quick-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1.25rem;
-    background: var(--gray-50);
-    border-radius: 14px;
+    justify-content: center;
+    gap: .6rem;
+    padding: 1.25rem .75rem;
+    border-radius: 16px;
     text-decoration: none;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--dark2);
+    border: 1px solid var(--border);
+    background: var(--bg);
+    transition: all .25s;
 }
+.quick-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); color: var(--dark2); }
 
-.quick-action-card:hover {
-    transform: translateY(-4px);
-    border-color: currentColor;
-}
-
-.action-primary:hover { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); }
-.action-success:hover { background: linear-gradient(135deg, var(--success), var(--success-dark)); }
-.action-purple:hover { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); }
-.action-warning:hover { background: linear-gradient(135deg, var(--warning), var(--warning-dark)); }
-
-.action-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.quick-btn-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
     font-size: 1.25rem;
-    background: white;
-    transition: all 0.3s ease;
 }
+.quick-btn-blue   .quick-btn-icon { background: rgba(59,130,246,.12); color: var(--blue); }
+.quick-btn-green  .quick-btn-icon { background: rgba(16,185,129,.12); color: var(--green); }
+.quick-btn-purple .quick-btn-icon { background: rgba(139,92,246,.12); color: var(--purple); }
+.quick-btn-orange .quick-btn-icon { background: rgba(245,158,11,.12); color: var(--orange); }
 
-.action-primary .action-icon { color: var(--primary); }
-.action-success .action-icon { color: var(--success); }
-.action-purple .action-icon { color: var(--purple); }
-.action-warning .action-icon { color: var(--warning); }
+.quick-btn-blue:hover   { border-color: var(--blue); }
+.quick-btn-green:hover  { border-color: var(--green); }
+.quick-btn-purple:hover { border-color: var(--purple); }
+.quick-btn-orange:hover { border-color: var(--orange); }
 
-.quick-action-card:hover .action-icon {
-    background: rgba(255,255,255,0.2);
-    color: white;
-}
+/* =============================================
+   PERIHAL STATS
+   ============================================= */
+.perihal-list { display: flex; flex-direction: column; gap: 1rem; }
 
-.action-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--gray-600);
-    text-align: center;
-}
-
-.quick-action-card:hover .action-label {
-    color: white;
-}
-
-/* Perihal Stats */
-.perihal-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.perihal-item {
+.perihal-row {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: .85rem;
 }
-
-.perihal-icon {
-    width: 40px;
-    height: 40px;
+.perihal-icon-wrap {
+    width: 36px; height: 36px;
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem;
+    flex-shrink: 0;
 }
-
-.perihal-primary { background: rgba(26,86,219,0.1); color: var(--primary); }
-.perihal-success { background: rgba(5,150,105,0.1); color: var(--success); }
-.perihal-info { background: rgba(8,145,178,0.1); color: var(--info); }
-.perihal-warning { background: rgba(217,119,6,0.1); color: var(--warning); }
-.perihal-danger { background: rgba(220,38,38,0.1); color: var(--danger); }
-
-.perihal-content {
-    flex: 1;
-}
-
-.perihal-header {
+.perihal-details { flex: 1; }
+.perihal-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: .4rem;
 }
-
-.perihal-name {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--gray-600);
-}
-
-.perihal-count {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--dark);
-}
-
-.progress-track {
+.perihal-lbl { font-size: .8rem; font-weight: 600; color: var(--dark2); }
+.perihal-cnt { font-size: .8rem; font-weight: 700; color: var(--dark); }
+.perihal-track {
     height: 6px;
-    background: var(--gray-200);
-    border-radius: 3px;
+    background: var(--border);
+    border-radius: 10px;
     overflow: hidden;
 }
+.perihal-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1s ease;
+}
 
-.progress-fill-primary { height: 100%; background: linear-gradient(90deg, var(--primary), var(--info)); border-radius: 3px; }
-.progress-fill-success { height: 100%; background: linear-gradient(90deg, var(--success), #34d399); border-radius: 3px; }
-.progress-fill-info { height: 100%; background: linear-gradient(90deg, var(--info), #06b6d4); border-radius: 3px; }
-.progress-fill-warning { height: 100%; background: linear-gradient(90deg, var(--warning), #fbbf24); border-radius: 3px; }
-.progress-fill-danger { height: 100%; background: linear-gradient(90deg, var(--danger), #ef4444); border-radius: 3px; }
+/* =============================================
+   TAMU TABLE
+   ============================================= */
+.view-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    background: linear-gradient(135deg, var(--blue), #1d4ed8);
+    color: white;
+    padding: .5rem 1.1rem;
+    border-radius: 10px;
+    font-size: .75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .25s;
+}
+.view-all-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(59,130,246,.4); color: white; }
 
-/* Visitors Table */
-.visitors-table {
+.tamu-table {
     width: 100%;
     border-collapse: collapse;
 }
-
-.visitors-table thead th {
-    padding: 0.875rem 1rem;
-    background: var(--gray-50);
-    border-bottom: 1px solid var(--gray-200);
-    font-size: 0.7rem;
+.tamu-table thead tr { background: var(--bg); }
+.tamu-table thead th {
+    padding: .8rem 1rem;
+    font-size: .68rem;
     font-weight: 700;
+    color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--gray-500);
-    text-align: left;
+    letter-spacing: .07em;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
 }
-
-.visitors-table tbody td {
-    padding: 0.875rem 1rem;
-    border-bottom: 1px solid var(--gray-100);
-    vertical-align: middle;
-    font-size: 0.875rem;
+.tamu-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background .15s;
 }
+.tamu-table tbody tr:last-child { border-bottom: 0; }
+.tamu-table tbody tr:hover { background: rgba(59,130,246,.03); }
+.tamu-table tbody td { padding: .9rem 1rem; font-size: .82rem; vertical-align: middle; }
 
-.col-number { width: 60px; }
-.col-contact { width: 140px; }
-.col-institution { width: 180px; }
-.col-purpose { width: 200px; }
-.col-actions { width: 100px; }
+.th-num    { width: 50px; text-align: center; }
+.th-contact, .th-inst, .th-perihal { display: table-cell; }
+.th-aksi   { width: 80px; text-align: center; }
 
-.table-number {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
+.tbl-num-badge {
+    width: 28px; height: 28px;
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .72rem;
     font-weight: 700;
+    color: var(--muted);
+    margin: 0 auto;
 }
 
-.visitor-cell {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
+.tbl-visitor-cell { display: flex; align-items: center; gap: .7rem; }
 
-.visitor-avatar {
-    width: 40px;
-    height: 40px;
+.tbl-avatar {
+    width: 36px; height: 36px;
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 0.875rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .8rem;
     font-weight: 700;
+    color: white;
+    flex-shrink: 0;
 }
+.av-blue   { background: linear-gradient(135deg,#3b82f6,#2563eb); }
+.av-green  { background: linear-gradient(135deg,#10b981,#059669); }
+.av-purple { background: linear-gradient(135deg,#8b5cf6,#7c3aed); }
+.av-orange { background: linear-gradient(135deg,#f59e0b,#d97706); }
+.av-dark   { background: linear-gradient(135deg,#475569,#334155); }
 
-.visitor-name {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--dark);
-    margin-bottom: 0.125rem;
-}
+.tbl-name { font-weight: 700; font-size: .82rem; color: var(--dark); }
+.tbl-id   { font-size: .7rem; color: var(--muted); margin-top: .1rem; }
 
-.visitor-id {
-    font-size: 0.7rem;
-    color: var(--gray-500);
-}
-
-.contact-badge {
+.tbl-contact-chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.25rem 0.625rem;
-    background: var(--gray-100);
-    border-radius: 6px;
-    font-size: 0.75rem;
-    color: var(--gray-600);
+    gap: .35rem;
+    background: rgba(59,130,246,.08);
+    color: var(--blue);
+    padding: .25rem .65rem;
+    border-radius: 20px;
+    font-size: .72rem;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
-.meet-badge {
+.tbl-inst-text { font-size: .78rem; color: var(--dark2); }
+
+.tbl-meet-badge {
     display: inline-block;
-    padding: 0.25rem 0.625rem;
-    background: rgba(26,86,219,0.1);
-    color: var(--primary);
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
-.visit-time {
-    text-align: left;
-}
-
-.visit-date {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--dark);
-}
-
-.visit-hour {
-    font-size: 0.7rem;
-    color: var(--gray-500);
-}
-
-.action-buttons {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.action-btn {
-    width: 32px;
-    height: 32px;
+    background: rgba(59,130,246,.1);
+    color: var(--blue);
+    padding: .25rem .65rem;
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    background: var(--gray-100);
-    color: var(--gray-600);
-}
-
-.action-view:hover {
-    background: var(--primary);
-    color: white;
-    transform: scale(1.05);
-}
-
-.action-edit:hover {
-    background: var(--warning);
-    color: white;
-    transform: scale(1.05);
-}
-
-.view-all-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 0.75rem;
+    font-size: .72rem;
     font-weight: 600;
-    transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
-.view-all-link:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
+.tbl-purpose { font-size: .78rem; color: var(--muted); }
 
-.period-btn {
-    background: white;
-    border: 1px solid var(--gray-200);
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--gray-600);
-    transition: all 0.3s ease;
-}
+.tbl-date { font-size: .78rem; font-weight: 700; color: var(--dark2); }
+.tbl-hour { font-size: .68rem; color: var(--muted); margin-top: .1rem; }
 
-.period-btn:hover {
-    border-color: var(--primary);
-    color: var(--primary);
+.tbl-actions { display: flex; gap: .4rem; justify-content: center; }
+.tbl-btn {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem;
+    text-decoration: none;
+    background: var(--bg);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    transition: all .2s;
 }
+.tbl-btn-view:hover { background: var(--blue); color: white; border-color: var(--blue); }
+.tbl-btn-edit:hover { background: var(--orange); color: white; border-color: var(--orange); }
 
 /* Empty State */
-.empty-state {
-    padding: 3rem;
-    text-align: center;
-}
-
-.empty-icon {
-    width: 80px;
-    height: 80px;
+.empty-state { padding: 3rem; text-align: center; }
+.empty-icon-wrap {
+    width: 70px; height: 70px;
     margin: 0 auto 1rem;
-    background: var(--gray-100);
+    background: var(--bg);
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: var(--gray-400);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    color: var(--light);
 }
-
-.empty-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 0.5rem;
-}
-
-.empty-text {
-    font-size: 0.875rem;
-    color: var(--gray-500);
-    margin-bottom: 1.5rem;
-}
-
-.empty-button {
+.empty-title { font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: .4rem; }
+.empty-desc  { font-size: .82rem; color: var(--muted); margin-bottom: 1.25rem; }
+.empty-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1.25rem;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    gap: .4rem;
+    background: linear-gradient(135deg,var(--blue),#1d4ed8);
     color: white;
+    padding: .55rem 1.25rem;
     border-radius: 10px;
+    font-size: .82rem;
+    font-weight: 700;
     text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    transition: all .25s;
 }
+.empty-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(59,130,246,.4); color: white; }
 
-.empty-button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
-/* Responsive */
+/* =============================================
+   RESPONSIVE
+   ============================================= */
 @media (max-width: 1200px) {
-    .welcome-title { font-size: 1.5rem; }
-    .col-contact, .col-institution, .col-purpose { display: none; }
+    .th-contact, .th-inst, .th-perihal { display: none; }
 }
-
 @media (max-width: 768px) {
-    .welcome-card-content { padding: 1.5rem; flex-direction: column; text-align: center; }
-    .welcome-stats { justify-content: center; }
-    .dash-header { flex-direction: column; align-items: stretch; }
-    .dash-header-right { justify-content: center; }
-    .stat-card-inner { flex-direction: column; gap: 1rem; }
-    .quick-actions-grid { grid-template-columns: repeat(2, 1fr); }
+    .welcome-card-content { flex-direction: column; }
+    .welcome-svg { width: 160px; height: 130px; }
+    .welcome-title { font-size: 1.4rem; }
+    .quick-grid { grid-template-columns: 1fr 1fr; }
+    .welcome-meta { flex-direction: column; gap: .5rem; }
+    .welcome-meta-divider { display: none; }
 }
 </style>
 @endpush
@@ -1808,12 +1385,14 @@ body {
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    AOS.init({ duration: 800, once: true });
-    
-    // Visitor Chart
+document.addEventListener('DOMContentLoaded', function () {
+    AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic' });
+
+    /* ──────────────────────────────
+       Bar Chart - Visitor Stats
+    ────────────────────────────── */
     const vCtx = document.getElementById('visitorChart');
-    if(vCtx) {
+    if (vCtx) {
         new Chart(vCtx, {
             type: 'bar',
             data: {
@@ -1821,9 +1400,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [{
                     label: 'Jumlah Tamu',
                     data: [12, 19, 15, 17, 14, 8, 10],
-                    backgroundColor: 'rgba(26, 86, 219, 0.8)',
-                    borderRadius: 8,
-                    borderSkipped: false
+                    backgroundColor: function(ctx) {
+                        const chart = ctx.chart;
+                        const { ctx: c, chartArea } = chart;
+                        if (!chartArea) return '#3b82f6';
+                        const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                        gradient.addColorStop(0, '#3b82f6');
+                        gradient.addColorStop(1, 'rgba(59,130,246,0.55)');
+                        return gradient;
+                    },
+                    borderRadius: { topLeft: 8, topRight: 8 },
+                    borderSkipped: false,
+                    barThickness: 36,
                 }]
             },
             options: {
@@ -1831,19 +1419,50 @@ document.addEventListener('DOMContentLoaded', function() {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: { display: false },
-                    tooltip: { backgroundColor: '#1e293b', padding: 12, borderRadius: 10 }
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        titleColor: '#94a3b8',
+                        bodyColor: '#f8fafc',
+                        padding: 12,
+                        borderRadius: 12,
+                        callbacks: {
+                            label: ctx => ` ${ctx.parsed.y} Kunjungan`
+                        }
+                    }
                 },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: '#e2e8f0' }, ticks: { stepSize: 5 } },
-                    x: { grid: { display: false } }
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#f1f5f9', drawBorder: false },
+                        ticks: {
+                            stepSize: 5,
+                            color: '#94a3b8',
+                            font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' }
+                        },
+                        border: { display: false }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#64748b',
+                            font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' }
+                        },
+                        border: { display: false }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
                 }
             }
         });
     }
-    
-    // Satisfaction Chart
+
+    /* ──────────────────────────────
+       Donut Chart - Satisfaction
+    ────────────────────────────── */
     const sCtx = document.getElementById('satisfactionChart');
-    if(sCtx) {
+    if (sCtx) {
         new Chart(sCtx, {
             type: 'doughnut',
             data: {
@@ -1851,18 +1470,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 datasets: [{
                     data: [65, 25, 7, 3],
                     backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'],
-                    borderWidth: 0,
-                    hoverOffset: 10
+                    borderWidth: 3,
+                    borderColor: '#ffffff',
+                    hoverOffset: 8
                 }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%',
-                plugins: { legend: { display: false } }
+                responsive: false,
+                cutout: '72%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        padding: 10,
+                        borderRadius: 10,
+                        callbacks: {
+                            label: ctx => ` ${ctx.label}: ${ctx.parsed}%`
+                        }
+                    }
+                },
+                animation: { animateRotate: true, duration: 1200 }
             }
         });
     }
+
+    /* ──────────────────────────────
+       Animate perihal progress bars
+    ────────────────────────────── */
+    setTimeout(() => {
+        document.querySelectorAll('.perihal-fill').forEach(el => {
+            const w = el.style.width;
+            el.style.width = '0';
+            requestAnimationFrame(() => { el.style.width = w; });
+        });
+    }, 400);
 });
 </script>
 @endpush

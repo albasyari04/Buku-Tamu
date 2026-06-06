@@ -269,24 +269,6 @@
             font-size: 0.73rem; color: var(--text-secondary); margin-top: 1px;
         }
 
-        .header-search-box {
-            display: flex; align-items: center; gap: 0.45rem;
-            background: var(--body-bg); border: 1.5px solid var(--border);
-            border-radius: 40px; padding: 0.42rem 1rem;
-            width: 230px; transition: var(--transition); cursor: text;
-        }
-        .header-search-box:hover, .header-search-box:focus-within {
-            border-color: var(--primary-light); background: #fff;
-            box-shadow: 0 0 0 3px var(--primary-glow);
-        }
-        .header-search-box i { color: var(--text-muted); font-size: 0.78rem; }
-        .header-search-box input {
-            border: none; background: transparent; outline: none;
-            font-size: 0.81rem; color: var(--text-primary);
-            font-family: var(--font-body); width: 100%;
-        }
-        .header-search-box input::placeholder { color: var(--text-muted); }
-
         .header-actions { display: flex; align-items: center; gap: 0.45rem; flex-shrink: 0; }
 
         .header-icon-btn {
@@ -304,6 +286,13 @@
             position: absolute; top: 6px; right: 6px;
             width: 7px; height: 7px; background: #ef4444;
             border-radius: 50%; border: 2px solid #fff;
+        }
+        .notification-badge {
+            position: absolute; top: -4px; right: -4px;
+            min-width: 16px; height: 16px; padding: 0 4px;
+            border-radius: 999px; background: #ef4444; color: #fff;
+            font-size: 0.65rem; font-weight: 700; display: inline-flex;
+            align-items: center; justify-content: center; line-height: 1;
         }
 
         .header-user-pill {
@@ -385,7 +374,6 @@
            tamu.index / tamu.*
            pegawai.index / pegawai.*
            tamu.export.pdf
-           dashboard.export.pdf
            dashboard.print
     ================================================================ --}}
     <aside class="main-sidebar" id="mainSidebar">
@@ -456,13 +444,24 @@
                     </a>
                 </div>
 
-                {{-- Export PDF Dashboard --}}
+                {{-- Import Data Tamu --}}
                 <div class="nav-item">
                     <a class="nav-link-custom"
-                       href="{{ route('dashboard.export.pdf') }}"
-                       title="Export PDF Dashboard">
-                        <div class="nav-icon"><i class="fas fa-file-export"></i></div>
-                        <span class="nav-label">Export Dashboard</span>
+                       href="{{ route('tamu.import.form') }}"
+                       title="Import Data Tamu">
+                        <div class="nav-icon"><i class="fas fa-file-excel"></i></div>
+                        <span class="nav-label">Import Data Tamu</span>
+                    </a>
+                </div>
+
+                {{-- Cetak Formulir Tamu --}}
+                <div class="nav-item">
+                    <a class="nav-link-custom"
+                       href="{{ route('tamu.formulir.print') }}"
+                       target="_blank"
+                       title="Cetak Formulir Tamu">
+                        <div class="nav-icon"><i class="fas fa-file-alt"></i></div>
+                        <span class="nav-label">Cetak Formulir Tamu</span>
                     </a>
                 </div>
 
@@ -505,20 +504,55 @@
             <i class="fas fa-bars fa-sm"></i>
         </button>
 
-        {{-- Search --}}
-        <div class="header-search-box ms-auto">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Cari data tamu, pegawai ...">
-        </div>
-
         {{-- Right Actions --}}
-        <div class="header-actions">
+        <div class="header-actions ms-auto">
 
             {{-- Notifikasi --}}
-            <div class="header-icon-btn" title="Notifikasi">
-                <i class="far fa-bell fa-sm"></i>
-                <span class="badge-dot"></span>
+            @auth
+            <div class="dropdown">
+                <div class="header-icon-btn" title="Notifikasi" role="button"
+                     data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="far fa-bell fa-sm"></i>
+                    @php($unreadCount = Auth::user()->unreadNotifications()->count())
+                    @if($unreadCount > 0)
+                        <span class="badge-dot"></span>
+                        <span class="notification-badge">{{ $unreadCount }}</span>
+                    @endif
+                </div>
+
+                <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0"
+                    style="min-width:320px;border-radius:var(--radius);padding:0.45rem;margin-top:0.45rem;">
+                    <li class="px-3 py-2 border-bottom">
+                        <div class="fw-semibold text-primary">Notifikasi Baru</div>
+                        <div class="small text-muted">Ada {{ $unreadCount }} tamu yang menunggu perhatian.</div>
+                    </li>
+
+                    @forelse(Auth::user()->unreadNotifications()->latest()->take(5)->get() as $notification)
+                        <li>
+                            <a class="dropdown-item rounded-2 py-2" href="{{ $notification->data['url'] ?? route('tamu.index') }}">
+                                <div class="fw-semibold text-dark">{{ $notification->data['message'] ?? 'Ada data tamu baru.' }}</div>
+                                <div class="small text-muted">{{ $notification->data['nama'] ?? '-' }} • {{ $notification->data['instansi'] ?? '-' }}</div>
+                            </a>
+                        </li>
+                    @empty
+                        <li class="px-3 py-2 text-muted small">Belum ada notifikasi baru.</li>
+                    @endforelse
+
+                    @if($unreadCount > 0)
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li>
+                            <form method="POST" action="{{ route('notifications.read.all') }}" id="mark-notifications">
+                                @csrf
+                                <a class="dropdown-item rounded-2 py-2 text-primary" href="#"
+                                   onclick="event.preventDefault(); document.getElementById('mark-notifications').submit();">
+                                    Tandai semua sudah dibaca
+                                </a>
+                            </form>
+                        </li>
+                    @endif
+                </ul>
             </div>
+            @endauth
 
             {{-- User Dropdown --}}
             @auth
@@ -532,8 +566,7 @@
                         <div class="user-name-sm">{{ Auth::user()->name }}</div>
                         <div class="user-role-sm">Admin</div>
                     </div>
-                    <i class="fas fa-chevron-down ms-1"
-                       style="font-size:0.6rem;color:var(--text-muted);"></i>
+
                 </div>
 
                 <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0"

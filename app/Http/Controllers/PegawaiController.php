@@ -18,16 +18,13 @@ class PegawaiController extends Controller
                           ->orderBy('nama')
                           ->paginate(10);
 
-        // Tambahan statistik
         $totalPegawai = Pegawai::where('status', true)->count();
-        $totalBidang = Pegawai::where('status', true)->distinct('bidang')->count('bidang');
-        $totalJabatan = Pegawai::where('status', true)->distinct('jabatan')->count('jabatan');
+        $totalBidang  = Pegawai::where('status', true)->distinct('bidang')->count('bidang');
 
         return view('pegawai.index', compact(
             'pegawais',
             'totalPegawai',
-            'totalBidang',
-            'totalJabatan'
+            'totalBidang'
         ));
     }
 
@@ -41,43 +38,40 @@ class PegawaiController extends Controller
             'Bidang Pengembangan Kompetensi Aparatur',
             'Bidang Penilaian Kerja'
         ];
-        
+
         return view('pegawai.create', compact('bidangOptions'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'nip' => 'nullable|string|max:20|unique:pegawais,nip',
-            'jabatan' => 'required|string|max:255',
+            'nama'   => 'required|string|max:255',
+            'nip'    => 'nullable|string|max:20|unique:pegawais,nip',
             'bidang' => 'required|string|max:255'
         ]);
 
         try {
-            $data = $request->all();
+            $data = $request->only(['nama', 'nip', 'bidang']);
             $data['status'] = true;
 
             Pegawai::create($data);
 
             return redirect()->route('pegawai.index')
-                            ->with('success', 'Data pegawai berhasil disimpan.');
+                             ->with('success', 'Data pegawai berhasil disimpan.');
 
         } catch (\Exception $e) {
             return redirect()->back()
-                            ->withInput()
-                            ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+                             ->withInput()
+                             ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
     }
 
     public function show(Pegawai $pegawai)
     {
-        // ========== PERBAIKAN: Tambahkan statistik seperti di index ==========
         $totalPegawai = Pegawai::where('status', true)->count();
-        $totalBidang = Pegawai::where('status', true)->distinct('bidang')->count('bidang');
-        $totalJabatan = Pegawai::where('status', true)->distinct('jabatan')->count('jabatan');
+        $totalBidang  = Pegawai::where('status', true)->distinct('bidang')->count('bidang');
 
-        return view('pegawai.show', compact('pegawai', 'totalPegawai', 'totalBidang', 'totalJabatan'));
+        return view('pegawai.show', compact('pegawai', 'totalPegawai', 'totalBidang'));
     }
 
     public function edit(Pegawai $pegawai)
@@ -90,44 +84,42 @@ class PegawaiController extends Controller
             'Bidang Pengembangan Kompetensi Aparatur',
             'Bidang Penilaian Kerja'
         ];
-        
+
         return view('pegawai.edit', compact('pegawai', 'bidangOptions'));
     }
 
     public function update(Request $request, Pegawai $pegawai)
     {
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'nip' => 'nullable|string|max:20|unique:pegawais,nip,' . $pegawai->id,
-            'jabatan' => 'required|string|max:255',
+            'nama'   => 'required|string|max:255',
+            'nip'    => 'nullable|string|max:20|unique:pegawais,nip,' . $pegawai->id,
             'bidang' => 'required|string|max:255'
         ]);
 
         try {
-            $pegawai->update($request->all());
+            $pegawai->update($request->only(['nama', 'nip', 'bidang']));
 
             return redirect()->route('pegawai.index')
-                            ->with('success', 'Data pegawai berhasil diupdate.');
+                             ->with('success', 'Data pegawai berhasil diupdate.');
 
         } catch (\Exception $e) {
             return redirect()->back()
-                            ->withInput()
-                            ->with('error', 'Gagal mengupdate data: ' . $e->getMessage());
+                             ->withInput()
+                             ->with('error', 'Gagal mengupdate data: ' . $e->getMessage());
         }
     }
 
     public function destroy(Pegawai $pegawai)
     {
         try {
-            // Soft delete dengan mengubah status menjadi false
             $pegawai->update(['status' => false]);
 
             return redirect()->route('pegawai.index')
-                            ->with('success', 'Data pegawai berhasil dinonaktifkan.');
+                             ->with('success', 'Data pegawai berhasil dinonaktifkan.');
 
         } catch (\Exception $e) {
             return redirect()->route('pegawai.index')
-                            ->with('error', 'Gagal menonaktifkan data: ' . $e->getMessage());
+                             ->with('error', 'Gagal menonaktifkan data: ' . $e->getMessage());
         }
     }
 }

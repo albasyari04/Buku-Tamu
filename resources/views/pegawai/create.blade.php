@@ -748,7 +748,7 @@
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                     </div>
                     <div>
-                        <div class="step-label">Jabatan & Bidang</div>
+                        <div class="step-label">Bidang</div>
                     </div>
                 </div>
                 <div class="step-connector"></div>
@@ -897,47 +897,18 @@
 
                     <hr class="form-divider">
 
-                    {{-- ── SECTION 2: JABATAN & BIDANG ── --}}
+                    {{-- ── SECTION 2: BIDANG / UNIT KERJA ── --}}
                     <div class="section-header">
                         <div class="section-icon green">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                         </div>
                         <div>
-                            <div class="section-title">Jabatan & Bidang</div>
-                            <div class="section-subtitle">Posisi struktural dan penempatan unit kerja pegawai</div>
+                            <div class="section-title">Bidang / Unit Kerja</div>
+                            <div class="section-subtitle">Penempatan unit kerja pegawai</div>
                         </div>
                     </div>
 
                     <div class="form-grid form-grid-1">
-                        {{-- Jabatan --}}
-                        <div class="form-group">
-                            <label class="form-label">
-                                <span class="label-icon">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                                </span>
-                                Jabatan / Posisi
-                                <span class="required-badge">Wajib</span>
-                            </label>
-                            <div class="input-wrapper">
-                                <svg class="input-prefix-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                                <input
-                                    type="text"
-                                    name="jabatan"
-                                    id="jabatan"
-                                    class="form-control-modern {{ $errors->has('jabatan') ? 'is-invalid' : '' }}"
-                                    placeholder="Contoh: Pranata Komputer Ahli Muda"
-                                    value="{{ old('jabatan') }}"
-                                    autocomplete="off"
-                                >
-                            </div>
-                            @error('jabatan')
-                            <span class="invalid-feedback-modern">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                {{ $message }}
-                            </span>
-                            @enderror
-                        </div>
-
                         {{-- Bidang --}}
                         <div class="form-group">
                             <label class="form-label">
@@ -1002,8 +973,7 @@
                         <ul class="info-list">
                             <li>Nama lengkap harus sesuai dengan dokumen resmi kepegawaian.</li>
                             <li>NIP bersifat unik — pastikan tidak terjadi duplikasi data.</li>
-                            <li>Jabatan dapat diisi secara manual sesuai SK pengangkatan.</li>
-                            <li>Pilih bidang yang sesuai dengan penempatan struktural pegawai.</li>
+                            <li>Pilih bidang yang sesuai dengan penempatan unit kerja pegawai.</li>
                             <li>Data dapat diubah sewaktu-waktu melalui menu edit pegawai.</li>
                         </ul>
                     </div>

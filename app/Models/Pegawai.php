@@ -12,7 +12,6 @@ class Pegawai extends Model
     protected $fillable = [
         'nama',
         'nip',
-        'jabatan',
         'bidang',
         'status'
     ];
@@ -20,10 +19,4 @@ class Pegawai extends Model
     protected $casts = [
         'status' => 'boolean'
     ];
-
-    // Jika masih ada relasi dengan tamu, sesuaikan dengan struktur baru
-    // public function tamus()
-    // {
-    //     return $this->hasMany(Tamu::class);
-    // }
 }

@@ -114,6 +114,20 @@
             </div>
 
             <div class="nav-item">
+                <a class="nav-link-custom" href="{{ route('tamu.import.form') }}" title="Import Data Tamu">
+                    <div class="nav-icon"><i class="fas fa-file-excel"></i></div>
+                    <span class="nav-label">Import Data Tamu</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a class="nav-link-custom" href="{{ route('tamu.formulir.print') }}" target="_blank" title="Cetak Formulir Tamu">
+                    <div class="nav-icon"><i class="fas fa-file-alt"></i></div>
+                    <span class="nav-label">Cetak Formulir Tamu</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
                 <a class="nav-link-custom" href="#" title="Statistik">
                     <div class="nav-icon"><i class="fas fa-chart-bar"></i></div>
                     <span class="nav-label">Statistik</span>
